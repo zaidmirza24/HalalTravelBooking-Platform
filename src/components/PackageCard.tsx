@@ -6,7 +6,7 @@ import { Button } from './Button';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface PackageCardProps {
-  id?: number;
+  id?: string | number;
   image: string;
   title: string;
   location: string;
@@ -77,7 +77,7 @@ export function PackageCard({
           
           <div className="flex items-end justify-between pt-4 border-t">
             <div>
-              <h3 className="text-emerald-600">${price}</h3>
+              <h3 className="text-emerald-600">${price > 0 ? price : 'TBD'}</h3>
               <span className="text-caption text-neutral-500">{priceLabel}</span>
             </div>
             <Link to={`/package/${id || 1}`}>

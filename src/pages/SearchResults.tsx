@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Navigation } from '../components/Navigation';
 import { SearchBar } from '../components/SearchBar';
 import { FilterPanel } from '../components/FilterPanel';
 import { PackageCard } from '../components/PackageCard';
 import { MobileBottomNav } from '../components/MobileBottomNav';
 import { Footer } from '../components/Footer';
-import { SlidersHorizontal, Map, Grid, List } from 'lucide-react';
+import { SlidersHorizontal, Map, Grid, List, Loader2 } from 'lucide-react';
 import { packages } from '../data/mockData';
 import { Button } from '../components/Button';
+import { useHotels } from '../api/hooks/useHotels';
+import { useApiMode } from '../contexts/ApiContext';
+import { mapHotelToPackage } from '../data/mockAdapters';
 
 type ViewMode = 'grid' | 'list';
 type SortOption = 'recommended' | 'price-low' | 'price-high' | 'rating';
@@ -16,6 +19,38 @@ export function SearchResults() {
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<SortOption>('recommended');
+  const { mode } = useApiMode();
+
+  // Fetch hotels from LiteAPI (only if not in mock mode)
+  const { data: apiHotels, isLoading, error } = useHotels(
+    {
+      limit: 50, // Fetch more hotels for search results
+    },
+    {
+      enabled: mode !== 'mock',
+    }
+  );
+
+  // Use API data if available, otherwise fallback to mock data
+  const allHotels = mode !== 'mock' && apiHotels && apiHotels.length > 0
+    ? apiHotels.map(mapHotelToPackage)
+    : packages;
+
+  // Sort hotels based on selected option
+  const sortedHotels = useMemo(() => {
+    const hotelsCopy = [...allHotels];
+    switch (sortBy) {
+      case 'price-low':
+        return hotelsCopy.sort((a, b) => a.price - b.price);
+      case 'price-high':
+        return hotelsCopy.sort((a, b) => b.price - a.price);
+      case 'rating':
+        return hotelsCopy.sort((a, b) => b.rating - a.rating);
+      case 'recommended':
+      default:
+        return hotelsCopy;
+    }
+  }, [allHotels, sortBy]);
   
   return (
     <div className="min-h-screen bg-neutral-50">
@@ -33,8 +68,13 @@ export function SearchResults() {
         <div className="container-custom">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
-              <h3 className="mb-1">234 properties found</h3>
-              <p className="text-sm text-neutral-600">Istanbul, Turkey • December 15-22, 2024</p>
+              <h3 className="mb-1">
+                {isLoading ? 'Searching...' : `${sortedHotels.length} properties found`}
+                {mode !== 'mock' && !isLoading && <span className="ml-2 text-xs text-emerald-600 font-medium">• Live from LiteAPI</span>}
+              </h3>
+              <p className="text-sm text-neutral-600">
+                {isLoading ? 'Loading hotels...' : 'Search results'}
+              </p>
             </div>
             
             <div className="flex items-center gap-3 w-full md:w-auto">
@@ -94,9 +134,20 @@ export function SearchResults() {
           
           {/* Results */}
           <main className="flex-1">
-            {viewMode === 'grid' ? (
+            {isLoading && mode !== 'mock' ? (
+              <div className="flex flex-col items-center justify-center py-16">
+                <Loader2 className="w-12 h-12 animate-spin text-emerald-600 mb-4" />
+                <p className="text-neutral-600 text-lg">Loading hotels from LiteAPI...</p>
+                <p className="text-sm text-neutral-500 mt-2">Finding the best halal-friendly options for you</p>
+              </div>
+            ) : sortedHotels.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-16 text-center">
+                <p className="text-neutral-600 text-lg mb-2">No hotels found</p>
+                <p className="text-sm text-neutral-500">Try adjusting your filters or search criteria</p>
+              </div>
+            ) : viewMode === 'grid' ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {packages.map((pkg) => (
+                {sortedHotels.map((pkg) => (
                   <PackageCard
                     key={pkg.id}
                     {...pkg}
@@ -106,7 +157,7 @@ export function SearchResults() {
               </div>
             ) : (
               <div className="space-y-6">
-                {packages.map((pkg) => (
+                {sortedHotels.map((pkg) => (
                   <PackageCard
                     key={pkg.id}
                     {...pkg}

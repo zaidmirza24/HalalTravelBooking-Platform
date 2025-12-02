@@ -42,9 +42,11 @@ export function Navigation() {
               <span className="text-sm">USD</span>
               <ChevronDown className="w-3 h-3" />
             </button>
-            <Button variant="ghost" size="small">Login</Button>
-            <Link to="/dashboard">
-              <Button variant="primary" size="small">Dashboard</Button>
+            <Link to="/login">
+              <Button variant="ghost" size="small">Login</Button>
+            </Link>
+            <Link to="/register">
+              <Button variant="primary" size="small">Sign Up</Button>
             </Link>
           </div>
 
@@ -69,9 +71,11 @@ export function Navigation() {
             <a href="#hotels" className="text-neutral-700 py-2">Hotels</a>
             <a href="#about" className="text-neutral-700 py-2">About</a>
             <div className="flex items-center gap-4 pt-4 border-t">
-              <Button variant="ghost" size="small" className="flex-1">Login</Button>
-              <Link to="/dashboard" className="flex-1">
-                <Button variant="primary" size="small" className="w-full">Dashboard</Button>
+              <Link to="/login" className="flex-1">
+                <Button variant="ghost" size="small" className="w-full">Login</Button>
+              </Link>
+              <Link to="/register" className="flex-1">
+                <Button variant="primary" size="small" className="w-full">Sign Up</Button>
               </Link>
             </div>
           </div>

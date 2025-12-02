@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Hero } from '../components/Hero';
 import { DestinationCard } from '../components/DestinationCard';
 import { PackageCard } from '../components/PackageCard';
 import { FeatureCard } from '../components/FeatureCard';
 import { ReviewCard } from '../components/ReviewCard';
-import { ArrowRight, Check, Shield, Headphones, Award } from 'lucide-react';
+import { ArrowRight, Check, Shield, Headphones, Award, Loader2 } from 'lucide-react';
 import { destinations, packages, reviews } from '../data/mockData';
+import { useHotels } from '../api/hooks/useHotels';
+import { useApiMode } from '../contexts/ApiContext';
+import { mapHotelToPackage, mapHotelToDestination } from '../data/mockAdapters';
+import { useCountries } from '../api/hooks/useCountries';
 
 interface Tab {
   id: string;
@@ -15,6 +19,7 @@ interface Tab {
 
 export function Home() {
   const [activeTab, setActiveTab] = useState<string>('all');
+  const { mode } = useApiMode();
 
   const tabs: Tab[] = [
     { id: 'all', label: 'All Packages' },
@@ -23,6 +28,37 @@ export function Home() {
     { id: 'adventure', label: 'Adventure' },
     { id: 'honeymoon', label: 'Honeymoon' }
   ];
+
+  // TEST: First verify API connectivity with countries endpoint
+  const { data: countries, isLoading: countriesLoading, error: countriesError } = useCountries({
+    enabled: mode !== 'mock',
+  });
+
+  // Log for debugging
+  if (mode !== 'mock') {
+    console.log('🧪 Testing API:', { countries, countriesLoading, countriesError });
+  }
+
+  // Fetch hotels from LiteAPI (only if not in mock mode)
+  // Note: Hotels endpoint requires countryCode or cityName parameter
+  const { data: apiHotels, isLoading: hotelsLoading, error: hotelsError } = useHotels(
+    {
+      countryCode: 'US', // Add required parameter
+      limit: 8,
+    },
+    {
+      enabled: mode !== 'mock', // Enable when not in mock mode
+    }
+  );
+
+  // Use API data if available, otherwise fallback to mock data
+  const displayHotels = mode !== 'mock' && apiHotels && apiHotels.length > 0
+    ? apiHotels.map(mapHotelToPackage)
+    : packages;
+
+  const displayDestinations = mode !== 'mock' && apiHotels && apiHotels.length > 0
+    ? apiHotels.slice(0, 4).map(mapHotelToDestination)
+    : destinations;
 
   return (
     <>
@@ -35,7 +71,10 @@ export function Home() {
           <div className="flex items-end justify-between mb-8">
             <div>
               <h2 className="mb-2">Popular Destinations</h2>
-              <p className="text-neutral-600">Explore the world's most beautiful halal-friendly destinations</p>
+              <p className="text-neutral-600">
+                Explore the world's most beautiful halal-friendly destinations
+                {mode !== 'mock' && <span className="ml-2 text-xs text-emerald-600 font-medium">• Live from LiteAPI</span>}
+              </p>
             </div>
             <Link to="/search" className="hidden md:flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-medium transition-colors">
               View all
@@ -43,17 +82,24 @@ export function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {destinations.slice(0, 4).map((destination) => (
-              <DestinationCard
-                key={destination.id}
-                image={destination.image}
-                name={destination.name}
-                country={destination.country}
-                badge={destination.badge}
-              />
-            ))}
-          </div>
+          {hotelsLoading && mode !== 'mock' ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
+              <span className="ml-3 text-neutral-600">Loading destinations from LiteAPI...</span>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {displayDestinations.slice(0, 4).map((destination) => (
+                <DestinationCard
+                  key={destination.id}
+                  image={destination.image}
+                  name={destination.name}
+                  country={destination.country}
+                  badge={destination.badge}
+                />
+              ))}
+            </div>
+          )}
 
           <div className="mt-6 text-center md:hidden">
             <Link to="/search" className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-medium transition-colors">
@@ -69,7 +115,10 @@ export function Home() {
         <div className="container-custom">
           <div className="text-center mb-8">
             <h2 className="mb-2">Curated Travel Packages</h2>
-            <p className="text-neutral-600">Hand-picked experiences designed for Muslim travelers</p>
+            <p className="text-neutral-600">
+              Hand-picked experiences designed for Muslim travelers
+              {mode !== 'mock' && <span className="ml-2 text-xs text-emerald-600 font-medium">• Live from LiteAPI</span>}
+            </p>
           </div>
 
           {/* Category Tabs */}
@@ -90,23 +139,31 @@ export function Home() {
           </div>
 
           {/* Package Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {packages.slice(0, 6).map((pkg) => (
-              <PackageCard
-                key={pkg.id}
-                image={pkg.image}
-                title={pkg.title}
-                location={pkg.location}
-                rating={pkg.rating}
-                reviews={pkg.reviews}
-                description={pkg.description}
-                badges={pkg.badges}
-                price={pkg.price}
-                priceLabel={pkg.priceLabel}
-                layout="vertical"
-              />
-            ))}
-          </div>
+          {hotelsLoading && mode !== 'mock' ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
+              <span className="ml-3 text-neutral-600">Loading packages from LiteAPI...</span>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {displayHotels.slice(0, 6).map((pkg) => (
+                <PackageCard
+                  key={pkg.id}
+                  id={pkg.id}
+                  image={pkg.image}
+                  title={pkg.title}
+                  location={pkg.location}
+                  rating={pkg.rating}
+                  reviews={pkg.reviews}
+                  description={pkg.description}
+                  badges={pkg.badges}
+                  price={pkg.price}
+                  priceLabel={pkg.priceLabel}
+                  layout="vertical"
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
 import { MobileBottomNav } from '../components/MobileBottomNav';
@@ -9,10 +9,12 @@ import { ReviewCard } from '../components/ReviewCard';
 import {
   MapPin, Star, Share2, Heart, Calendar, Users,
   Check, Wifi, Wind, Droplets, Coffee, Utensils,
-  ChevronDown, MessageCircle, Shield, Clock
+  ChevronDown, MessageCircle, Shield, Clock, Loader2
 } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { reviews } from '../data/mockData';
+import { useHotelDetails } from '../api/hooks/useHotelDetails';
+import { useApiMode } from '../contexts/ApiContext';
 
 interface Tab {
   id: string;
@@ -42,9 +44,16 @@ interface Amenity {
 }
 
 export function PackageDetail() {
+  const { id } = useParams<{ id: string }>();
+  const { mode } = useApiMode();
   const [activeTab, setActiveTab] = useState<string>('overview');
   const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [selectedGuests, setSelectedGuests] = useState<GuestCount>({ adults: 2, children: 0 });
+
+  // Fetch hotel details from API
+  const { data: hotel, isLoading, error } = useHotelDetails(id || '', {
+    enabled: mode !== 'mock' && !!id,
+  });
 
   const tabs: Tab[] = [
     { id: 'overview', label: 'Overview' },
@@ -54,12 +63,43 @@ export function PackageDetail() {
     { id: 'reviews', label: 'Reviews' }
   ];
 
-  const images: string[] = [
-    'https://images.unsplash.com/photo-1609518624785-dd9d1d436d1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpc3RhbmJ1bCUyMGJsdWUlMjBtb3NxdWV8ZW58MXx8fHwxNzY0MDY3NjI0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    'https://images.unsplash.com/photo-1589561454226-796a8aa89b05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpc3RhbmJ1bCUyMGJvc3Bob3J1c3xlbnwxfHx8fDE3NjQwNjc2MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    'https://images.unsplash.com/photo-1609518624785-dd9d1d436d1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpc3RhbmJ1bCUyMGJsdWUlMjBtb3NxdWV8ZW58MXx8fHwxNzY0MDY3NjI0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    'https://images.unsplash.com/photo-1589561454226-796a8aa89b05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpc3RhbmJ1bCUyMGJvc3Bob3J1c3xlbnwxfHx8fDE3NjQwNjc2MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
-  ];
+  // Use API data if available
+  const hotelName = hotel?.name || 'Luxury Istanbul Discovery';
+  const hotelCity = hotel?.city || 'Istanbul';
+  const hotelCountry = hotel?.countryCode || hotel?.country || 'Turkey';
+  const hotelAddress = hotel?.address || '';
+  const hotelDescription = hotel?.hotelDescription || '';
+  const hotelImportantInfo = hotel?.hotelImportantInformation || '';
+  const hotelRating = hotel?.rating || hotel?.stars || 4.8;
+  const hotelStars = hotel?.stars || hotel?.starRating || 5;
+  const reviewCount = hotel?.reviewCount || 1248;
+  const checkInTime = hotel?.checkinCheckoutTimes?.checkin || '';
+  const checkOutTime = hotel?.checkinCheckoutTimes?.checkout || '';
+  const hotelFacilities = hotel?.facilities || [];
+  const hotelRooms = hotel?.rooms || [];
+
+  // Use hotelImages if available, otherwise fallback
+  const images: string[] = hotel?.hotelImages && hotel.hotelImages.length > 0
+    ? hotel.hotelImages.slice(0, 20).map(img => img.url)
+    : hotel?.main_photo
+    ? [hotel.main_photo, hotel.thumbnail || hotel.main_photo, hotel.main_photo, hotel.main_photo]
+    : [
+        'https://images.unsplash.com/photo-1609518624785-dd9d1d436d1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpc3RhbmJ1bCUyMGJsdWUlMjBtb3NxdWV8ZW58MXx8fHwxNzY0MDY3NjI0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+        'https://images.unsplash.com/photo-1589561454226-796a8aa89b05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpc3RhbmJ1bCUyMGJvc3Bob3J1c3xlbnwxfHx8fDE3NjQwNjc2MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+        'https://images.unsplash.com/photo-1609518624785-dd9d1d436d1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpc3RhbmJ1bCUyMGJsdWUlMjBtb3NxdWV8ZW58MXx8fHwxNzY0MDY3NjI0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+        'https://images.unsplash.com/photo-1589561454226-796a8aa89b05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpc3RhbmJ1bCUyMGJvc3Bob3J1c3xlbnwxfHx8fDE3NjQwNjc2MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'
+      ];
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-12 h-12 animate-spin text-emerald-600" />
+          <p className="text-neutral-600">Loading hotel details...</p>
+        </div>
+      </div>
+    );
+  }
   
   return (
     <div className="min-h-screen bg-white">
@@ -71,11 +111,11 @@ export function PackageDetail() {
           <div className="flex items-center gap-2 text-sm text-neutral-600">
             <Link to="/" className="hover:text-emerald-600">Home</Link>
             <span>/</span>
-            <Link to="/search" className="hover:text-emerald-600">Turkey</Link>
+            <Link to="/search" className="hover:text-emerald-600">{hotelCountry}</Link>
             <span>/</span>
-            <Link to="/search" className="hover:text-emerald-600">Istanbul</Link>
+            <Link to="/search" className="hover:text-emerald-600">{hotelCity}</Link>
             <span>/</span>
-            <span className="text-neutral-900">Luxury Istanbul Discovery</span>
+            <span className="text-neutral-900">{hotelName}</span>
           </div>
         </div>
       </div>
@@ -116,18 +156,28 @@ export function PackageDetail() {
             <div className="mb-6">
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div className="flex-1">
-                  <h1 className="mb-3">Luxury Istanbul Discovery</h1>
-                  <div className="flex items-center gap-4 mb-4">
+                  <h1 className="mb-3">{hotelName}</h1>
+                  <div className="flex flex-col gap-2 mb-4">
                     <div className="flex items-center gap-2 text-neutral-600">
                       <MapPin className="w-5 h-5" />
-                      <span>Istanbul, Turkey</span>
+                      <span>{hotelAddress || `${hotelCity}, ${hotelCountry}`}</span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-4">
                       <div className="flex items-center gap-1">
-                        <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium">4.8</span>
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`w-4 h-4 ${i < hotelStars ? 'fill-yellow-400 text-yellow-400' : 'text-neutral-300'}`}
+                          />
+                        ))}
+                        <span className="ml-2 text-sm text-neutral-600">{hotelStars} Star Hotel</span>
                       </div>
-                      <span className="text-neutral-600">(234 reviews)</span>
+                      {checkInTime && checkOutTime && (
+                        <div className="flex items-center gap-2 text-sm text-neutral-600">
+                          <Clock className="w-4 h-4" />
+                          <span>Check-in: {checkInTime} | Check-out: {checkOutTime}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -174,14 +224,77 @@ export function PackageDetail() {
             {activeTab === 'overview' && (
               <div className="space-y-8">
                 <div>
-                  <h3 className="mb-4">About this experience</h3>
-                  <p className="text-neutral-700 leading-relaxed mb-4">
-                    Discover the enchanting city where East meets West on this comprehensive 7-day luxury tour of Istanbul. Experience the rich Islamic heritage, stunning Ottoman architecture, and vibrant culture while enjoying 100% halal accommodations and dining experiences.
-                  </p>
-                  <p className="text-neutral-700 leading-relaxed">
-                    This carefully curated package includes guided tours of iconic landmarks including the Blue Mosque, Hagia Sophia, Topkapi Palace, and the Grand Bazaar. Enjoy scenic Bosphorus cruises, traditional hammam experiences, and authentic Turkish cuisine at the finest halal restaurants.
-                  </p>
+                  <h3 className="mb-4">About this hotel</h3>
+                  {hotelDescription ? (
+                    <div
+                      className="text-neutral-700 leading-relaxed mb-4"
+                      dangerouslySetInnerHTML={{ __html: hotelDescription }}
+                    />
+                  ) : (
+                    <p className="text-neutral-700 leading-relaxed mb-4">
+                      Discover the enchanting city where East meets West on this comprehensive luxury experience. Experience the rich Islamic heritage, stunning architecture, and vibrant culture while enjoying 100% halal accommodations and dining experiences.
+                    </p>
+                  )}
                 </div>
+
+                {hotelImportantInfo && (
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
+                    <h4 className="mb-3 flex items-center gap-2 text-amber-900">
+                      <Shield className="w-5 h-5" />
+                      Important Information
+                    </h4>
+                    <div
+                      className="text-sm text-amber-900 leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: hotelImportantInfo }}
+                    />
+                  </div>
+                )}
+
+                {hotelRooms && hotelRooms.length > 0 && (
+                  <div>
+                    <h3 className="mb-4">Available Rooms</h3>
+                    <div className="space-y-4">
+                      {hotelRooms.slice(0, 3).map((room) => (
+                        <div key={room.id} className="border border-neutral-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                          <div className="flex gap-6">
+                            {room.photos && room.photos.length > 0 && (
+                              <div className="w-32 h-32 rounded-lg overflow-hidden flex-shrink-0">
+                                <ImageWithFallback
+                                  src={room.photos[0].url}
+                                  alt={room.roomName}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            )}
+                            <div className="flex-1">
+                              <h4 className="mb-2">{room.roomName}</h4>
+                              <div className="flex flex-wrap gap-3 text-sm text-neutral-600 mb-3">
+                                <span>{room.roomSizeSquare} {room.roomSizeUnit}</span>
+                                <span>•</span>
+                                <span>Max {room.maxAdults} adults</span>
+                                {room.bedTypes && room.bedTypes.length > 0 && (
+                                  <>
+                                    <span>•</span>
+                                    <span>{room.bedTypes.map(b => `${b.quantity} ${b.bedType}`).join(', ')}</span>
+                                  </>
+                                )}
+                              </div>
+                              {room.roomAmenities && room.roomAmenities.length > 0 && (
+                                <div className="flex flex-wrap gap-2">
+                                  {room.roomAmenities.slice(0, 6).map((amenity) => (
+                                    <span key={amenity.amenitiesId} className="text-xs bg-neutral-100 px-2 py-1 rounded">
+                                      {amenity.name}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 
                 <div>
                   <h3 className="mb-4">What's included</h3>
@@ -245,48 +358,64 @@ export function PackageDetail() {
             
             {activeTab === 'facilities' && (
               <div className="space-y-8">
-                <div>
-                  <h3 className="mb-6">Halal & Islamic Facilities</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {([
-                      { icon: <Check className="w-6 h-6" />, title: '100% Halal Food', desc: 'All meals served are halal certified' },
-                      { icon: <Check className="w-6 h-6" />, title: 'Prayer Rooms', desc: 'Dedicated prayer facilities available' },
-                      { icon: <Check className="w-6 h-6" />, title: 'No Alcohol', desc: 'Completely alcohol-free premises' },
-                      { icon: <Check className="w-6 h-6" />, title: 'Qibla Direction', desc: 'Clearly marked in all rooms' }
-                    ] as Facility[]).map((facility, i) => (
-                      <div key={i} className="flex gap-4">
-                        <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 flex-shrink-0">
-                          {facility.icon}
+                {hotelFacilities && hotelFacilities.length > 0 ? (
+                  <div>
+                    <h3 className="mb-6">Hotel Facilities & Amenities</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                      {hotelFacilities.map((facility) => (
+                        <div key={facility.facilityId} className="flex items-center gap-3 p-3 rounded-lg bg-neutral-50 hover:bg-emerald-50 transition-colors">
+                          <Check className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                          <span className="text-sm text-neutral-700">{facility.name}</span>
                         </div>
-                        <div>
-                          <h4 className="mb-1">{facility.title}</h4>
-                          <p className="text-sm text-neutral-600">{facility.desc}</p>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-                
-                <div>
-                  <h3 className="mb-6">Hotel Amenities</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {([
-                      { icon: <Wifi className="w-5 h-5" />, label: 'Free WiFi' },
-                      { icon: <Wind className="w-5 h-5" />, label: 'Air Conditioning' },
-                      { icon: <Droplets className="w-5 h-5" />, label: 'Swimming Pool' },
-                      { icon: <Coffee className="w-5 h-5" />, label: 'Coffee Maker' },
-                      { icon: <Utensils className="w-5 h-5" />, label: 'Restaurant' },
-                      { icon: <Shield className="w-5 h-5" />, label: '24/7 Security' },
-                      { icon: <Clock className="w-5 h-5" />, label: 'Room Service' },
-                      { icon: <Users className="w-5 h-5" />, label: 'Family Rooms' }
-                    ] as Amenity[]).map((amenity, i) => (
-                      <div key={i} className="flex items-center gap-3 p-4 rounded-lg bg-neutral-50">
-                        <div className="text-emerald-600">{amenity.icon}</div>
-                        <span className="text-sm text-neutral-700">{amenity.label}</span>
+                ) : (
+                  <>
+                    <div>
+                      <h3 className="mb-6">Halal & Islamic Facilities</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {([
+                          { icon: <Check className="w-6 h-6" />, title: '100% Halal Food', desc: 'All meals served are halal certified' },
+                          { icon: <Check className="w-6 h-6" />, title: 'Prayer Rooms', desc: 'Dedicated prayer facilities available' },
+                          { icon: <Check className="w-6 h-6" />, title: 'No Alcohol', desc: 'Completely alcohol-free premises' },
+                          { icon: <Check className="w-6 h-6" />, title: 'Qibla Direction', desc: 'Clearly marked in all rooms' }
+                        ] as Facility[]).map((facility, i) => (
+                          <div key={i} className="flex gap-4">
+                            <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 flex-shrink-0">
+                              {facility.icon}
+                            </div>
+                            <div>
+                              <h4 className="mb-1">{facility.title}</h4>
+                              <p className="text-sm text-neutral-600">{facility.desc}</p>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
+                    </div>
+
+                    <div>
+                      <h3 className="mb-6">Hotel Amenities</h3>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {([
+                          { icon: <Wifi className="w-5 h-5" />, label: 'Free WiFi' },
+                          { icon: <Wind className="w-5 h-5" />, label: 'Air Conditioning' },
+                          { icon: <Droplets className="w-5 h-5" />, label: 'Swimming Pool' },
+                          { icon: <Coffee className="w-5 h-5" />, label: 'Coffee Maker' },
+                          { icon: <Utensils className="w-5 h-5" />, label: 'Restaurant' },
+                          { icon: <Shield className="w-5 h-5" />, label: '24/7 Security' },
+                          { icon: <Clock className="w-5 h-5" />, label: 'Room Service' },
+                          { icon: <Users className="w-5 h-5" />, label: 'Family Rooms' }
+                        ] as Amenity[]).map((amenity, i) => (
+                          <div key={i} className="flex items-center gap-3 p-4 rounded-lg bg-neutral-50">
+                            <div className="text-emerald-600">{amenity.icon}</div>
+                            <span className="text-sm text-neutral-700">{amenity.label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             )}
             
@@ -296,7 +425,7 @@ export function PackageDetail() {
                   <h3 className="mb-6">Guest Reviews</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div className="text-center p-6 rounded-xl bg-neutral-50">
-                      <div className="text-4xl font-bold text-emerald-600 mb-2">4.8</div>
+                      <div className="text-4xl font-bold text-emerald-600 mb-2">{hotelRating}</div>
                       <div className="flex items-center justify-center gap-1 mb-2">
                         {[...Array(5)].map((_, i) => (
                           <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
