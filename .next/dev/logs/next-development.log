@@ -1,1 +1,29 @@
-[00:00:02.007] Server  LOG      ✓ Ready in 1426ms
+[00:00:01.852] Server  LOG      ✓ Ready in 1292ms
+[00:34:16.846] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
+[00:34:16.863] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
+[00:34:16.992] Browser LOG     [API Request] GET /data/hotels
+[00:34:16.992] Browser LOG     [API Request] GET /data/hotels
+[00:34:18.513] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
+[00:34:18.660] Browser LOG     [API Response] 200 /data/hotels
+[00:34:20.458] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
+[00:34:21.343] Browser LOG     [API Response] 200 /data/hotels
+[00:34:27.855] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
+[00:34:27.877] Server  LOG     💰 Fetching rates for hotels: {}
+[00:34:27.916] Server  LOG     🏨 Fetching hotel details for ID: "lp25092"
+[00:34:27.921] Browser LOG     [API Request] GET /hotel/lp25092
+[00:34:27.921] Browser LOG     [API Request] GET /data/reviews
+[00:34:27.921] Browser LOG     [API Request] POST /rates
+[00:34:28.450] Server  LOG     [LiteAPI Response] 200 "/data/reviews"
+[00:34:29.039] Browser LOG     [API Response] 200 /data/reviews
+[00:34:29.039] Browser LOG     [API Response] 200 /hotel/lp25092
+[00:34:29.039] Browser WARN    MUI Grid: The `item` prop has been removed and is no longer necessary. You can safely remove it.
+
+[00:34:29.039] Browser WARN    MUI Grid: The `xs` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:34:29.039] Browser WARN    MUI Grid: The `lg` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:34:29.039] Browser WARN    MUI Grid: The `sm` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:34:29.039] Browser WARN    MUI Grid: The `md` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:34:30.087] Browser LOG     [API Response] 200 /rates
