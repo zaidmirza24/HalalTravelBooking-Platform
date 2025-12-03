@@ -54,7 +54,7 @@ export const destinations = [
 
 export const packages = [
   {
-    id: 1,
+    id: 'lp24c8f',  // Realistic LiteAPI-style hotel ID
     image: 'https://images.unsplash.com/photo-1609518624785-dd9d1d436d1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpc3RhbmJ1bCUyMGJsdWUlMjBtb3NxdWV8ZW58MXx8fHwxNzY0MDY3NjI0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     title: 'Luxury Istanbul Discovery',
     location: 'Istanbul, Turkey',
@@ -66,7 +66,7 @@ export const packages = [
     priceLabel: 'per person'
   },
   {
-    id: 2,
+    id: 'lp3a92d',  // Realistic LiteAPI-style hotel ID
     image: 'https://images.unsplash.com/photo-1698726654862-377c0218dfdc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYWxkaXZlcyUyMGJlYWNoJTIwcmVzb3J0fGVufDF8fHx8MTc2NDAzODc0MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     title: 'Maldives Paradise Retreat',
     location: 'Maldives',
@@ -78,7 +78,7 @@ export const packages = [
     priceLabel: 'per person'
   },
   {
-    id: 3,
+    id: 'lp5f81b',  // Realistic LiteAPI-style hotel ID
     image: 'https://images.unsplash.com/photo-1606138369267-ff17948d119c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkdWJhaSUyMHNreWxpbmUlMjBwYWxtfGVufDF8fHx8MTc2NDA2NzYyNXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     title: 'Dubai Modern Luxury',
     location: 'Dubai, UAE',
@@ -90,7 +90,7 @@ export const packages = [
     priceLabel: 'per person'
   },
   {
-    id: 4,
+    id: 'lp7d24e',  // Realistic LiteAPI-style hotel ID
     image: 'https://images.unsplash.com/photo-1571909552531-1601eaec8f79?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZWNjYSUyMGthYWJhJTIwcGlsZ3JpbWFnZXxlbnwxfHx8fDE3NjQwNjc2MjV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     title: 'Premium Umrah Package',
     location: 'Makkah & Madinah, Saudi Arabia',
@@ -102,7 +102,7 @@ export const packages = [
     priceLabel: 'per person'
   },
   {
-    id: 5,
+    id: 'lp9b53a',  // Realistic LiteAPI-style hotel ID
     image: 'https://images.unsplash.com/photo-1706553397756-07063648e11a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb3JvY2NvJTIwbWFycmFrZWNofGVufDF8fHx8MTc2NDA2NzYyNXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     title: 'Marrakech Cultural Adventure',
     location: 'Marrakech, Morocco',
@@ -114,7 +114,7 @@ export const packages = [
     priceLabel: 'per person'
   },
   {
-    id: 6,
+    id: 'lp2e67c',  // Realistic LiteAPI-style hotel ID
     image: 'https://images.unsplash.com/photo-1706249085166-bc6e8a0691cc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYWxheXNpYSUyMHBldHJvbmFzJTIwdG93ZXJzfGVufDF8fHx8MTc2NDA2NzYyNXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     title: 'Malaysia Explorer',
     location: 'Kuala Lumpur, Malaysia',

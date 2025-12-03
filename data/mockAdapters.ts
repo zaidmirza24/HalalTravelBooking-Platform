@@ -8,25 +8,79 @@ import type { Hotel, HotelDetails } from '../api/types/hotel.types';
 import type { HotelRate } from '../api/types/search.types';
 
 /**
+ * Validates and returns a safe image URL
+ * Returns null if invalid, which will trigger the placeholder in ImageWithFallback
+ */
+const getSafeImageUrl = (url: string | undefined | null): string => {
+  if (!url) return '';
+
+  // Check if it's a valid URL format
+  try {
+    const trimmed = url.trim();
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+      return trimmed;
+    }
+    // If it's a relative URL, return it as-is
+    if (trimmed.startsWith('/')) {
+      return trimmed;
+    }
+  } catch {
+    // Invalid URL, return empty string to trigger placeholder
+  }
+
+  return '';
+};
+
+/**
+ * Get the best available image from hotel data with fallback chain
+ */
+const getBestHotelImage = (hotel: Hotel | HotelDetails): string => {
+  // Try multiple image sources in order of preference
+  const imageOptions = [
+    hotel.main_photo,
+    hotel.thumbnail,
+    hotel.hotelImages?.[0]?.url,
+    hotel.hotelImages?.[1]?.url, // Try second image as backup
+  ];
+
+  for (const imageUrl of imageOptions) {
+    const safeUrl = getSafeImageUrl(imageUrl);
+    if (safeUrl) return safeUrl;
+  }
+
+  // Return empty string to let ImageWithFallback handle the placeholder
+  return '';
+};
+
+/**
  * Map LiteAPI Hotel to internal Package format
  */
 export const mapHotelToPackage = (hotel: Hotel | HotelDetails) => {
-  // LiteAPI uses different field names than our original mock data
-  const image = hotel.main_photo || hotel.hotelImages?.[0]?.url || '';
-  const starRating = hotel.stars || hotel.starRating || 4.0;
-  const userRating = hotel.rating || starRating;
+  // Extract fields from LiteAPI response
+  const image = getBestHotelImage(hotel);
+  const userRating = hotel.rating || 0;
   const reviewCount = hotel.reviewCount || 0;
+
+  // Build location string
+  const location = hotel.city && hotel.country
+    ? `${hotel.city}, ${hotel.country}`
+    : hotel.city || hotel.address || 'Location not specified';
+
+  // Clean description (remove HTML tags, limit length)
+  const rawDescription = hotel.hotelDescription || '';
+  const cleanDescription = rawDescription
+    .replace(/<[^>]*>/g, '') // Remove HTML tags
+    .replace(/\s+/g, ' ') // Normalize whitespace
+    .trim();
 
   return {
     id: hotel.id,
-    title: hotel.name,
-    location: hotel.city && (hotel.countryCode || hotel.country)
-      ? `${hotel.city}, ${hotel.countryCode || hotel.country}`
-      : hotel.address || 'Unknown location',
+    title: hotel.name || 'Hotel',
+    location,
     rating: userRating,
     reviews: reviewCount,
-    description: hotel.hotelDescription || '',
-    image: image,
+    description: cleanDescription || 'Comfortable accommodation with modern amenities',
+    image,
     badges: determineBadges(hotel) as Array<'halal' | 'prayer-room' | 'family-friendly' | 'no-alcohol' | 'women-only'>,
     price: 0, // Will be populated from rates API
     priceLabel: 'per night' as const,
@@ -37,14 +91,14 @@ export const mapHotelToPackage = (hotel: Hotel | HotelDetails) => {
  * Map LiteAPI Hotel to internal Destination format
  */
 export const mapHotelToDestination = (hotel: Hotel) => {
-  const image = hotel.main_photo || hotel.hotelImages?.[0]?.url || '';
+  const image = getBestHotelImage(hotel);
   const starRating = hotel.stars || hotel.starRating || 3;
 
   return {
     id: parseInt(hotel.id) || hotel.id,
     name: hotel.city || hotel.name,
     country: hotel.countryCode || hotel.country || 'Unknown',
-    image: image,
+    image,
     badge: starRating >= 4 ? ('featured' as const) : undefined,
   };
 };

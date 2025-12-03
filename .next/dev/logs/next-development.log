@@ -1,343 +1,112 @@
-[00:00:03.717] Server  LOG      ✓ Ready in 2.6s
-[00:00:03.751] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. {}
-[00:00:03.752] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. {}
-[00:00:03.752] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. {}
-[00:00:03.752] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. {}
-[00:00:03.752] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. {}
-[00:00:03.752] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. {}
-[00:00:03.752] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. {}
-[00:00:03.752] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. {}
-[00:00:06.797] Server  LOG      ○ Compiling / ...
-[00:00:12.947] Browser LOG     [API Request] GET /data/hotels
-[00:00:12.947] Browser LOG     [API Request] GET /data/hotels
-[00:00:13.923] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
-[00:00:13.957] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
-[00:00:15.182] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
-[00:00:15.199] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
-[00:00:15.666] Browser LOG     [API Response] 200 /data/hotels
-[00:00:15.666] Browser LOG     [API Response] 200 /data/hotels
-[00:00:15.666] Browser ERROR   An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string. src src
-[00:00:39.748] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
-[00:00:39.779] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
-[00:00:39.804] Browser LOG     [API Request] GET /data/hotels
-[00:00:39.804] Browser LOG     [API Request] GET /data/hotels
-[00:00:40.935] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
-[00:00:40.949] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
-[00:00:41.333] Browser LOG     [API Response] 200 /data/hotels
-[00:00:41.333] Browser ERROR   An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string. src src
-[00:00:41.333] Browser LOG     [API Response] 200 /data/hotels
-[00:02:00.545] Server  LOG      ✓ Compiled in 81ms
-[00:02:00.763] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
-[00:02:00.784] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
-[00:02:00.843] Browser LOG     [API Request] GET /data/hotels
-[00:02:00.843] Browser LOG     [API Request] GET /data/hotels
-[00:02:01.293] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
-[00:02:01.466] Browser LOG     [API Response] 200 /data/hotels
-[00:02:01.466] Browser ERROR   An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string. src src
-[00:02:01.466] Browser ERROR   An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string. src src
-[00:02:01.466] Browser ERROR   An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string. src src
-[00:02:01.466] Browser ERROR   An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string. src src
-[00:02:02.070] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
-[00:02:02.259] Browser LOG     [API Response] 200 /data/hotels
-[00:05:29.281] Browser LOG     [API Request] GET /data/hotel
-[00:05:29.281] Browser LOG     [API Request] GET /data/reviews
-[00:05:29.936] Server  LOG     [LiteAPI Request] "GET" "/data/hotel"
-[00:05:30.267] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
-[00:05:30.682] Server  ERROR   [LiteAPI Error] 400 "Request failed with status code 400"
-[00:05:30.896] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_de2bf4dc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:30.902] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\[root-of-the-server]__411adeaf._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:30.989] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.007] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.035] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.052] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.055] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.070] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.103] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.120] Server  ERROR   Hotel details API error: AxiosError: Request failed with status code 400
-[00:05:31.514] Server  ERROR   [LiteAPI Error] 400 "Request failed with status code 400"
-[00:05:31.518] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_de2bf4dc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.522] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\[root-of-the-server]__6db5e5e4._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.534] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.638] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_25972cfc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.650] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.653] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.656] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.662] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.666] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.669] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:31.679] Server  ERROR   Reviews API error: AxiosError: Request failed with status code 400
-[00:05:32.261] Browser ERROR   [API Error] 400 Request failed with status code 400
-[00:05:32.261] Browser ERROR   [HotelService] Failed to fetch hotel details: {"message":"Request failed with status code 400","status":400,"type":"server"}
-[00:05:32.261] Browser ERROR   [API Error] 400 Request failed with status code 400
-[00:05:32.261] Browser ERROR   [HotelService] Failed to fetch reviews: {"message":"Request failed with status code 400","status":400,"type":"server"}
-[00:05:50.293] Server  LOG     [LiteAPI Request] "GET" "/data/hotel"
-[00:05:50.369] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
-[00:05:50.401] Browser LOG     [API Request] GET /data/hotel
-[00:05:50.401] Browser LOG     [API Request] GET /data/reviews
-[00:05:50.727] Server  ERROR   [LiteAPI Error] 400 "Request failed with status code 400"
-[00:05:50.730] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_de2bf4dc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:50.732] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\[root-of-the-server]__6db5e5e4._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:50.735] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:50.738] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_25972cfc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:50.739] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:50.741] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:50.746] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:50.748] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:50.751] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:50.754] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:50.756] Server  ERROR   Reviews API error: AxiosError: Request failed with status code 400
-[00:05:50.871] Browser ERROR   [API Error] 400 Request failed with status code 400
-[00:05:50.871] Browser ERROR   [HotelService] Failed to fetch reviews: {"message":"Request failed with status code 400","status":400,"type":"server"}
-[00:05:51.552] Server  ERROR   [LiteAPI Error] 400 "Request failed with status code 400"
-[00:05:51.555] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_de2bf4dc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:51.557] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\[root-of-the-server]__411adeaf._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:51.562] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:51.564] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:51.565] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:51.567] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:51.569] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:51.572] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:51.575] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:51.577] Server  ERROR   Hotel details API error: AxiosError: Request failed with status code 400
-[00:05:51.705] Browser ERROR   [API Error] 400 Request failed with status code 400
-[00:05:51.705] Browser ERROR   [HotelService] Failed to fetch hotel details: {"message":"Request failed with status code 400","status":400,"type":"server"}
-[00:05:52.800] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
-[00:05:52.884] Browser LOG     [API Request] GET /data/reviews
-[00:05:53.119] Server  ERROR   [LiteAPI Error] 400 "Request failed with status code 400"
-[00:05:53.122] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_de2bf4dc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.124] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\[root-of-the-server]__6db5e5e4._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.129] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.131] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_25972cfc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.133] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.134] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.136] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.138] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.140] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.141] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.146] Server  ERROR   Reviews API error: AxiosError: Request failed with status code 400
-[00:05:53.265] Browser ERROR   [API Error] 400 Request failed with status code 400
-[00:05:53.265] Browser ERROR   [HotelService] Failed to fetch reviews: {"message":"Request failed with status code 400","status":400,"type":"server"}
-[00:05:53.628] Server  LOG     [LiteAPI Request] "GET" "/data/hotel"
-[00:05:53.716] Browser LOG     [API Request] GET /data/hotel
-[00:05:53.938] Server  ERROR   [LiteAPI Error] 400 "Request failed with status code 400"
-[00:05:53.941] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_de2bf4dc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.945] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\[root-of-the-server]__411adeaf._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.949] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.954] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.956] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.958] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.961] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.964] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.966] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:05:53.968] Server  ERROR   Hotel details API error: AxiosError: Request failed with status code 400
-[00:05:54.078] Browser ERROR   [API Error] 400 Request failed with status code 400
-[00:05:54.078] Browser ERROR   [HotelService] Failed to fetch hotel details: {"message":"Request failed with status code 400","status":400,"type":"server"}
-[00:06:06.113] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
-[00:06:06.123] Browser LOG     [API Request] GET /data/hotels
-[00:06:06.123] Browser LOG     [API Request] GET /data/hotels
-[00:06:06.140] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
-[00:06:06.487] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
-[00:06:06.661] Browser LOG     [API Response] 200 /data/hotels
-[00:06:06.661] Browser ERROR   An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string. src src
-[00:06:06.661] Browser ERROR   An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string. src src
-[00:06:06.661] Browser ERROR   An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string. src src
-[00:06:06.661] Browser ERROR   An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string. src src
-[00:06:07.253] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
-[00:06:07.416] Browser LOG     [API Response] 200 /data/hotels
-[00:06:11.984] Server  LOG     [LiteAPI Request] "GET" "/data/hotel"
-[00:06:12.002] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
-[00:06:12.062] Browser LOG     [API Request] GET /data/hotel
-[00:06:12.062] Browser LOG     [API Request] GET /data/reviews
-[00:06:12.287] Server  ERROR   [LiteAPI Error] 400 "Request failed with status code 400"
-[00:06:12.289] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_de2bf4dc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.291] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\[root-of-the-server]__411adeaf._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.292] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.293] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.294] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.296] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.297] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.300] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.301] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.303] Server  ERROR   Hotel details API error: AxiosError: Request failed with status code 400
-[00:06:12.355] Server  ERROR   [LiteAPI Error] 400 "Request failed with status code 400"
-[00:06:12.385] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_de2bf4dc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.423] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\[root-of-the-server]__6db5e5e4._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.438] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.440] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_25972cfc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.444] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.447] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.467] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.468] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.472] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.473] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:12.480] Server  ERROR   Reviews API error: AxiosError: Request failed with status code 400
-[00:06:12.494] Browser ERROR   [API Error] 400 Request failed with status code 400
-[00:06:12.494] Browser ERROR   [HotelService] Failed to fetch hotel details: {"message":"Request failed with status code 400","status":400,"type":"server"}
-[00:06:12.590] Browser ERROR   [API Error] 400 Request failed with status code 400
-[00:06:12.590] Browser ERROR   [HotelService] Failed to fetch reviews: {"message":"Request failed with status code 400","status":400,"type":"server"}
-[00:06:13.336] Server  LOG     [LiteAPI Request] "GET" "/data/hotel"
-[00:06:13.436] Browser LOG     [API Request] GET /data/hotel
-[00:06:13.507] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
-[00:06:13.608] Browser LOG     [API Request] GET /data/reviews
-[00:06:13.639] Server  ERROR   [LiteAPI Error] 400 "Request failed with status code 400"
-[00:06:13.641] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_de2bf4dc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.642] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\[root-of-the-server]__411adeaf._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.644] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.645] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.646] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.647] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.648] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.650] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.651] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.652] Server  ERROR   Hotel details API error: AxiosError: Request failed with status code 400
-[00:06:13.766] Browser ERROR   [API Error] 400 Request failed with status code 400
-[00:06:13.766] Browser ERROR   [HotelService] Failed to fetch hotel details: {"message":"Request failed with status code 400","status":400,"type":"server"}
-[00:06:13.817] Server  ERROR   [LiteAPI Error] 400 "Request failed with status code 400"
-[00:06:13.818] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_de2bf4dc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.820] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\[root-of-the-server]__6db5e5e4._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.821] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.822] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_25972cfc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.822] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.823] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.824] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.825] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.829] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.830] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:13.831] Server  ERROR   Reviews API error: AxiosError: Request failed with status code 400
-[00:06:13.940] Browser ERROR   [API Error] 400 Request failed with status code 400
-[00:06:13.940] Browser ERROR   [HotelService] Failed to fetch reviews: {"message":"Request failed with status code 400","status":400,"type":"server"}
-[00:06:15.677] Server  LOG     [LiteAPI Request] "GET" "/data/hotel"
-[00:06:15.780] Browser LOG     [API Request] GET /data/hotel
-[00:06:15.855] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
-[00:06:15.956] Browser LOG     [API Request] GET /data/reviews
-[00:06:15.982] Server  ERROR   [LiteAPI Error] 400 "Request failed with status code 400"
-[00:06:15.983] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_de2bf4dc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:15.985] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\[root-of-the-server]__411adeaf._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:15.986] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:15.986] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:15.987] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:15.988] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:15.989] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:15.990] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:15.991] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:15.992] Server  ERROR   Hotel details API error: AxiosError: Request failed with status code 400
-[00:06:16.114] Browser ERROR   [API Error] 400 Request failed with status code 400
-[00:06:16.114] Browser ERROR   [HotelService] Failed to fetch hotel details: {"message":"Request failed with status code 400","status":400,"type":"server"}
-[00:06:16.163] Server  ERROR   [LiteAPI Error] 400 "Request failed with status code 400"
-[00:06:16.164] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_de2bf4dc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:16.166] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\[root-of-the-server]__6db5e5e4._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:16.167] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:16.168] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_25972cfc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:16.169] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:16.170] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:16.171] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:16.172] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:16.174] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:16.175] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:06:16.176] Server  ERROR   Reviews API error: AxiosError: Request failed with status code 400
-[00:06:16.289] Browser ERROR   [API Error] 400 Request failed with status code 400
-[00:06:16.289] Browser ERROR   [HotelService] Failed to fetch reviews: {"message":"Request failed with status code 400","status":400,"type":"server"}
-[00:07:54.770] Server  LOG      ✓ Compiled in 26ms
-[00:07:54.851] Server  LOG     [LiteAPI Request] "GET" "/data/hotel"
-[00:07:54.867] Server  LOG     [LiteAPI Request] "GET" "/data/hotel"
-[00:07:54.881] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
-[00:07:55.202] Server  ERROR   [LiteAPI Error] 400 "Request failed with status code 400"
-[00:07:55.204] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_de2bf4dc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.205] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\[root-of-the-server]__411adeaf._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.206] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.207] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.210] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.211] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.212] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.213] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.214] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.215] Server  ERROR   Hotel details API error: AxiosError: Request failed with status code 400
-[00:07:55.223] Server  ERROR   [LiteAPI Error] 400 "Request failed with status code 400"
-[00:07:55.225] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_de2bf4dc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.226] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\[root-of-the-server]__6db5e5e4._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.229] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.231] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\.next\dev\server\chunks\node_modules_25972cfc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.233] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.234] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.235] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.236] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.237] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.238] Server  ERROR   C:\Users\mirza\OneDrive\Desktop\Projects\Halaltravelbookingplatform\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:07:55.240] Server  ERROR   Reviews API error: AxiosError: Request failed with status code 400
-[00:07:55.248] Server  LOG     [LiteAPI Response] 200 "/data/hotel"
-[00:07:56.242] Browser LOG     [API Request] GET /data/hotel
-[00:07:56.242] Browser LOG     [API Request] GET /data/hotel
-[00:07:56.242] Browser LOG     [API Request] GET /data/reviews
-[00:07:56.242] Browser ERROR   [API Error] 400 Request failed with status code 400
-[00:07:56.242] Browser ERROR   [HotelService] Failed to fetch hotel details: {"message":"Request failed with status code 400","status":400,"type":"server"}
-[00:07:56.242] Browser ERROR   [API Error] 400 Request failed with status code 400
-[00:07:56.242] Browser ERROR   [HotelService] Failed to fetch reviews: {"message":"Request failed with status code 400","status":400,"type":"server"}
-[00:07:56.242] Browser LOG     [API Response] 200 /data/hotel
-[00:07:56.242] Browser ERROR   uncaughtError: TypeError: facility.toLowerCase is not a function
-[00:08:21.179] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:08:21.190] Server  LOG      ✓ Compiled in 14ms
-[00:08:21.800] Server  LOG     [LiteAPI Request] "GET" "/data/hotel"
-[00:08:21.826] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
-[00:08:22.205] Server  LOG     [LiteAPI Response] 200 "/data/hotel"
-[00:08:22.386] Server  LOG     [LiteAPI Response] 200 "/data/reviews"
-[00:08:23.247] Server  LOG     [LiteAPI Request] "GET" "/data/hotel"
-[00:08:23.261] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
-[00:08:23.565] Server  LOG     [LiteAPI Response] 200 "/data/hotel"
-[00:08:23.723] Server  LOG     [LiteAPI Response] 200 "/data/reviews"
-[00:08:24.245] Browser LOG     [API Request] GET /data/hotel
-[00:08:24.245] Browser LOG     [API Request] GET /data/reviews
-[00:08:24.245] Browser LOG     [API Response] 200 /data/hotel
-[00:08:24.245] Browser ERROR   uncaughtError: TypeError: facility.toLowerCase is not a function
-[00:08:24.245] Browser LOG     [API Response] 200 /data/reviews
-[00:08:44.073] Server  LOG     [LiteAPI Request] "GET" "/data/hotel"
-[00:08:44.096] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
-[00:08:44.125] Browser LOG     [API Request] GET /data/hotel
-[00:08:44.125] Browser LOG     [API Request] GET /data/reviews
-[00:08:44.462] Server  LOG     [LiteAPI Response] 200 "/data/hotel"
-[00:08:44.609] Server  LOG     [LiteAPI Response] 200 "/data/reviews"
-[00:08:44.779] Browser LOG     [API Response] 200 /data/hotel
-[00:08:44.779] Browser ERROR   uncaughtError: TypeError: facility.toLowerCase is not a function
-[00:08:44.779] Browser LOG     [API Response] 200 /data/reviews
-[00:09:30.921] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:09:30.924] Server  LOG      ✓ Compiled in 49ms
-[00:09:33.027] Server  LOG     [LiteAPI Request] "GET" "/data/hotel"
-[00:09:33.052] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
-[00:09:33.150] Browser LOG     [API Request] GET /data/hotel
-[00:09:33.150] Browser LOG     [API Request] GET /data/reviews
-[00:09:33.450] Server  LOG     [LiteAPI Response] 200 "/data/hotel"
-[00:09:33.591] Server  LOG     [LiteAPI Response] 200 "/data/reviews"
-[00:09:33.850] Browser LOG     [API Response] 200 /data/hotel
-[00:09:33.850] Browser ERROR   uncaughtError: Error: Objects are not valid as a React child (found: object with keys {latitude, longitude}). If you meant to render a collection of children, use an array instead.
-[00:09:33.850] Browser LOG     [API Response] 200 /data/reviews
-[00:12:18.902] Server  LOG     [LiteAPI Request] "GET" "/data/hotel"
-[00:12:18.941] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
-[00:12:18.959] Browser LOG     [API Request] GET /data/hotel
-[00:12:18.959] Browser LOG     [API Request] GET /data/reviews
-[00:12:19.302] Server  LOG     [LiteAPI Response] 200 "/data/hotel"
-[00:12:19.427] Server  LOG     [LiteAPI Response] 200 "/data/reviews"
-[00:12:19.847] Browser LOG     [API Response] 200 /data/hotel
-[00:12:19.847] Browser ERROR   uncaughtError: Error: Objects are not valid as a React child (found: object with keys {latitude, longitude}). If you meant to render a collection of children, use an array instead.
-[00:12:19.847] Browser LOG     [API Response] 200 /data/reviews
-[00:12:46.370] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:12:46.377] Server  LOG      ✓ Compiled in 49ms
-[00:12:48.811] Server  LOG     [LiteAPI Request] "GET" "/data/hotel"
-[00:12:48.833] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
-[00:12:49.188] Server  LOG     [LiteAPI Response] 200 "/data/hotel"
-[00:12:49.368] Server  LOG     [LiteAPI Response] 200 "/data/reviews"
-[00:12:50.247] Browser LOG     [API Request] GET /data/hotel
-[00:12:50.247] Browser LOG     [API Request] GET /data/reviews
-[00:12:50.247] Browser LOG     [API Response] 200 /data/hotel
-[00:12:50.247] Browser LOG     [API Response] 200 /data/reviews
-[00:13:39.472] Server  LOG      ✓ Compiled in 97ms
-[00:15:48.152] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
-[00:15:48.192] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
-[00:15:48.232] Browser LOG     [API Request] GET /data/hotels
-[00:15:48.232] Browser LOG     [API Request] GET /data/hotels
-[00:15:48.908] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
-[00:15:49.130] Browser LOG     [API Response] 200 /data/hotels
-[00:15:49.130] Browser ERROR   An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string. src src
-[00:15:49.130] Browser ERROR   An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string. src src
-[00:15:49.130] Browser ERROR   An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string. src src
-[00:15:49.130] Browser ERROR   An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string. src src
-[00:15:49.439] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
-[00:15:49.758] Browser LOG     [API Response] 200 /data/hotels
+[00:00:02.072] Server  LOG      ✓ Ready in 1491ms
+[00:00:05.142] Server  LOG      ○ Compiling / ...
+[00:00:10.277] Browser LOG     [API Request] GET /data/hotels
+[00:00:10.278] Browser LOG     [API Request] GET /data/hotels
+[00:00:10.640] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
+[00:00:10.669] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
+[00:00:11.004] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
+[00:00:11.227] Browser LOG     [API Response] 200 /data/hotels
+[00:00:12.723] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
+[00:00:14.009] Browser LOG     [API Response] 200 /data/hotels
+[00:00:17.132] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
+[00:00:18.274] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
+[00:02:34.678] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
+[00:02:34.700] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
+[00:02:34.794] Browser LOG     [API Request] GET /data/hotels
+[00:02:34.794] Browser LOG     [API Request] GET /data/hotels
+[00:02:35.075] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
+[00:02:35.221] Browser LOG     [API Response] 200 /data/hotels
+[00:02:36.714] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
+[00:02:37.584] Browser LOG     [API Response] 200 /data/hotels
+[00:02:44.368] Browser LOG     [API Request] GET /hotel/lp1c1f2
+[00:02:44.368] Browser LOG     [API Request] GET /data/reviews
+[00:02:44.368] Browser LOG     [API Request] POST /rates
+[00:02:44.762] Server  LOG     ✅ LiteAPI SDK initialized successfully
+[00:02:44.786] Server  LOG     💰 Fetching rates for hotels: {}
+[00:02:44.982] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
+[00:02:45.487] Server  LOG     [LiteAPI Response] 200 "/data/reviews"
+[00:02:45.597] Browser LOG     [API Response] 200 /data/reviews
+[00:02:45.965] Server  LOG     🏨 Fetching hotel details for ID: "lp1c1f2"
+[00:02:46.803] Browser LOG     [API Response] 200 /hotel/lp1c1f2
+[00:02:46.803] Browser WARN    MUI Grid: The `item` prop has been removed and is no longer necessary. You can safely remove it.
+
+[00:02:46.803] Browser WARN    MUI Grid: The `xs` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:02:46.803] Browser WARN    MUI Grid: The `lg` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:02:46.803] Browser WARN    MUI Grid: The `sm` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:02:46.804] Browser WARN    MUI Grid: The `md` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:02:48.237] Browser LOG     [API Response] 200 /rates
+[00:04:18.540] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
+[00:04:18.566] Server  LOG     💰 Fetching rates for hotels: {}
+[00:04:18.593] Server  LOG     🏨 Fetching hotel details for ID: "lp1c6a6"
+[00:04:18.628] Browser LOG     [API Request] GET /hotel/lp1c6a6
+[00:04:18.628] Browser LOG     [API Request] GET /data/reviews
+[00:04:18.628] Browser LOG     [API Request] POST /rates
+[00:04:19.075] Server  LOG     [LiteAPI Response] 200 "/data/reviews"
+[00:04:19.182] Browser LOG     [API Response] 200 /data/reviews
+[00:04:20.132] Browser LOG     [API Response] 200 /hotel/lp1c6a6
+[00:04:21.462] Browser LOG     [API Response] 200 /rates
+[00:04:47.930] Server  LOG     💰 Fetching rates for hotels: {}
+[00:04:47.959] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
+[00:04:47.998] Server  LOG     🏨 Fetching hotel details for ID: "lp1c6a6"
+[00:04:48.004] Browser LOG     [API Request] GET /hotel/lp1c6a6
+[00:04:48.004] Browser LOG     [API Request] GET /data/reviews
+[00:04:48.004] Browser LOG     [API Request] POST /rates
+[00:04:48.476] Server  LOG     [LiteAPI Response] 200 "/data/reviews"
+[00:04:49.324] Browser LOG     [API Response] 200 /hotel/lp1c6a6
+[00:04:49.324] Browser WARN    MUI Grid: The `item` prop has been removed and is no longer necessary. You can safely remove it.
+
+[00:04:49.324] Browser WARN    MUI Grid: The `xs` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:04:49.324] Browser WARN    MUI Grid: The `lg` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:04:49.324] Browser WARN    MUI Grid: The `sm` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:04:49.324] Browser WARN    MUI Grid: The `md` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:04:49.324] Browser LOG     [API Response] 200 /data/reviews
+[00:04:50.113] Browser LOG     [API Response] 200 /rates
+[00:04:52.787] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
+[00:04:52.806] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
+[00:04:52.868] Browser LOG     [API Request] GET /data/hotels
+[00:04:52.868] Browser LOG     [API Request] GET /data/hotels
+[00:04:53.138] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
+[00:04:53.302] Browser LOG     [API Response] 200 /data/hotels
+[00:04:53.889] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
+[00:04:54.766] Browser LOG     [API Response] 200 /data/hotels
+[00:04:55.987] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
+[00:04:56.002] Server  LOG     [LiteAPI Request] "GET" "/data/hotels"
+[00:04:56.111] Browser LOG     [API Request] GET /data/hotels
+[00:04:56.111] Browser LOG     [API Request] GET /data/hotels
+[00:04:56.304] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
+[00:04:56.497] Browser LOG     [API Response] 200 /data/hotels
+[00:04:57.102] Server  LOG     [LiteAPI Response] 200 "/data/hotels"
+[00:04:57.958] Browser LOG     [API Response] 200 /data/hotels
+[00:05:02.123] Server  LOG     💰 Fetching rates for hotels: {}
+[00:05:02.143] Server  LOG     [LiteAPI Request] "GET" "/data/reviews"
+[00:05:02.175] Server  LOG     🏨 Fetching hotel details for ID: "lp1c6a6"
+[00:05:02.217] Browser LOG     [API Request] GET /hotel/lp1c6a6
+[00:05:02.217] Browser LOG     [API Request] GET /data/reviews
+[00:05:02.217] Browser LOG     [API Request] POST /rates
+[00:05:02.634] Server  LOG     [LiteAPI Response] 200 "/data/reviews"
+[00:05:03.487] Browser LOG     [API Response] 200 /hotel/lp1c6a6
+[00:05:03.487] Browser WARN    MUI Grid: The `item` prop has been removed and is no longer necessary. You can safely remove it.
+
+[00:05:03.487] Browser WARN    MUI Grid: The `xs` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:05:03.487] Browser WARN    MUI Grid: The `lg` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:05:03.487] Browser WARN    MUI Grid: The `sm` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:05:03.487] Browser WARN    MUI Grid: The `md` prop has been removed. See https://mui.com/material-ui/migration/upgrade-to-grid-v2/ for migration instructions.
+
+[00:05:03.487] Browser LOG     [API Response] 200 /data/reviews
+[00:05:04.602] Browser LOG     [API Response] 200 /rates
+[00:05:54.532] Browser LOG     [API Request] GET /hotels
+[00:05:54.668] Server  LOG     🔍 Searching hotels with params: {}
+[00:05:58.173] Browser LOG     [API Response] 200 /hotels
+[00:05:58.173] Browser LOG     [Search] Using API data: 50 hotels
+[00:05:58.173] Browser LOG     [2;38;2;124;124;124m%s[0m [Search] Using API data: 50 hotels

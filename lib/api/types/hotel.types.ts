@@ -112,14 +112,23 @@ export interface HotelDetails extends Hotel {
 
 export interface HotelReview {
   id?: string;
-  hotelId: string;
-  title?: string;
-  description: string;
-  rating: number;
-  reviewDate?: string;
-  guestName?: string;
+  hotelId?: string;
+  averageScore: number;
+  name: string;
+  country: string;
+  type: string;
+  headline?: string;
   pros?: string;
   cons?: string;
+  date: string;
+  language?: string;
+  source?: string;
+  // Legacy fields for backward compatibility
+  title?: string;
+  description?: string;
+  rating?: number;
+  reviewDate?: string;
+  guestName?: string;
 }
 
 export interface HotelListParams {

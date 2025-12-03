@@ -1,393 +1,1276 @@
 'use client';
 
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { useHotelDetails } from '@/lib/api/hooks/useHotelDetails';
-import { useHotelReviews } from '@/lib/api/hooks/useHotelReviews';
+import {
+  Box,
+  Container,
+  Grid,
+  Typography,
+  Card,
+  CardContent,
+  Button,
+  IconButton,
+  Chip,
+  Rating,
+  Tabs,
+  Tab,
+  CircularProgress,
+  Alert,
+  TextField,
+  MenuItem,
+  Divider,
+  Avatar,
+  Paper,
+  ImageList,
+  ImageListItem,
+} from '@mui/material';
+import {
+  ArrowBack,
+  FavoriteBorder,
+  Favorite,
+  Share,
+  LocationOn,
+  Wifi,
+  Restaurant,
+  LocalParking,
+  FitnessCenter,
+  Pool,
+  Spa as SpaIcon,
+  CheckCircle,
+  CalendarMonth,
+  People,
+  Star as StarIcon,
+  NightsStay,
+  Groups,
+  NoFood,
+  AutoAwesome,
+  Hotel as HotelIcon,
+  KingBed,
+  PhotoLibrary,
+} from '@mui/icons-material';
+import { useHotelById, useHotelReviews } from '@/lib/api/hooks';
+import { useRatesQuery } from '@/lib/api/hooks/useRates';
+import { formatDateForAPI, getMinimumRate } from '@/lib/api/services/ratesService';
 import { Navigation } from '@/components/layout/Navigation';
 import { Footer } from '@/components/layout/Footer';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  MapPin,
-  Star,
-  Wifi,
-  Coffee,
-  Utensils,
-  ParkingCircle,
-  Wind,
-  Tv,
-  Heart,
-  Share2,
-  ChevronLeft,
-  Loader2,
-  Check,
-  Calendar,
-  Users,
-  Bed,
-} from 'lucide-react';
+import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      style={{
+        minHeight: value === index ? 'auto' : 0,
+        transition: 'min-height 0.3s ease',
+      }}
+      {...other}
+    >
+      {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
+    </div>
+  );
+}
+
+const facilityIcons: { [key: string]: any } = {
+  wifi: Wifi,
+  parking: LocalParking,
+  restaurant: Restaurant,
+  gym: FitnessCenter,
+  pool: Pool,
+  spa: SpaIcon,
+  cafe: Restaurant,
+  ac: AutoAwesome,
+};
 
 export default function PackageDetailPage() {
   const params = useParams();
   const hotelId = params.id as string;
+  const [tabValue, setTabValue] = useState(0);
+  const [isWishlisted, setIsWishlisted] = useState(false);
 
-  // Fetch hotel details
-  const { data: hotel, isLoading, error } = useHotelDetails({ hotelId });
+  // Set default dates: tomorrow and day after tomorrow
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const dayAfter = new Date();
+  dayAfter.setDate(dayAfter.getDate() + 3);
 
-  // Fetch hotel reviews
-  const { data: reviews } = useHotelReviews({ hotelId, limit: 5 });
+  const [checkIn, setCheckIn] = useState(formatDateForAPI(tomorrow));
+  const [checkOut, setCheckOut] = useState(formatDateForAPI(dayAfter));
+  const [guests, setGuests] = useState('2');
+  const [reviewsLimit, setReviewsLimit] = useState(5);
+
+  const { data: hotel, isLoading, error, refetch } = useHotelById(hotelId);
+  const { data: reviews, isLoading: reviewsLoading } = useHotelReviews({
+    hotelId,
+    limit: reviewsLimit,
+    offset: 0
+  });
+
+  // Fetch rates automatically when dates are available
+  const ratesParams = checkIn && checkOut && hotelId ? {
+    hotelIds: [hotelId],
+    checkin: checkIn,
+    checkout: checkOut,
+    currency: 'USD',
+    guestNationality: 'US',
+    occupancies: [{
+      rooms: 1,
+      adults: parseInt(guests) || 2,
+      children: []
+    }]
+  } : null;
+
+  const { data: ratesData, isLoading: ratesLoading } = useRatesQuery(ratesParams);
+
+  // Get minimum rate for display
+  const minRate = ratesData?.[0] ? getMinimumRate(ratesData[0]) : null;
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-neutral-50">
+      <Box sx={{ minHeight: '100vh', bgcolor: '#fafafa' }}>
         <Navigation />
-        <div className="flex items-center justify-center py-24">
-          <Loader2 className="w-12 h-12 animate-spin text-emerald-600" />
-        </div>
-      </div>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '60vh',
+          }}
+        >
+          <Box sx={{ textAlign: 'center' }}>
+            <CircularProgress size={60} sx={{ color: '#059669', mb: 2 }} />
+            <Typography variant="body1" color="text.secondary">
+              Loading hotel details...
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
     );
   }
 
   if (error || !hotel) {
     return (
-      <div className="min-h-screen bg-neutral-50">
+      <Box sx={{ minHeight: '100vh', bgcolor: '#fafafa' }}>
         <Navigation />
-        <div className="container mx-auto px-4 py-24 text-center">
-          <h1 className="text-2xl font-bold mb-4">Hotel Not Found</h1>
-          <p className="text-neutral-600 mb-6">The hotel you're looking for doesn't exist or has been removed.</p>
-          <Link href="/">
-            <Button>Back to Home</Button>
+        <Container maxWidth="lg" sx={{ py: 8 }}>
+          <Alert
+            severity="error"
+            sx={{ mb: 3, borderRadius: 2 }}
+            action={
+              error && (
+                <Button color="inherit" size="small" onClick={() => refetch()}>
+                  Retry
+                </Button>
+              )
+            }
+          >
+            <Typography variant="h6" gutterBottom>
+              {error ? 'Unable to Load Hotel' : 'Hotel Not Found'}
+            </Typography>
+            <Typography variant="body2">
+              {error
+                ? 'We encountered an error while loading hotel details.'
+                : "The hotel you're looking for doesn't exist."}
+            </Typography>
+          </Alert>
+          <Link href="/" style={{ textDecoration: 'none' }}>
+            <Button variant="contained" startIcon={<ArrowBack />} sx={{ bgcolor: '#059669' }}>
+              Back to Home
+            </Button>
           </Link>
-        </div>
-      </div>
+        </Container>
+      </Box>
     );
   }
 
-  const facilityIcons: { [key: string]: any } = {
-    wifi: Wifi,
-    parking: ParkingCircle,
-    restaurant: Utensils,
-    cafe: Coffee,
-    ac: Wind,
-    tv: Tv,
-  };
+  const images = [
+    hotel.main_photo || hotel.hotelImages?.[0]?.url,
+    ...(hotel.hotelImages?.slice(1, 5).map((img: any) => img.url || img.urlHd || img) || []),
+  ].filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <Box sx={{ minHeight: '100vh', bgcolor: '#fafafa' }}>
       <Navigation />
 
       {/* Breadcrumb */}
-      <div className="bg-white border-b">
-        <div className="container mx-auto px-4 py-4">
-          <Link href="/" className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700">
-            <ChevronLeft className="w-4 h-4" />
-            Back to Home
+      <Box sx={{ bgcolor: 'white', borderBottom: '1px solid #e5e7eb', py: 2 }}>
+        <Container maxWidth="xl">
+          <Link href="/" style={{ textDecoration: 'none' }}>
+            <Button startIcon={<ArrowBack />} sx={{ color: '#059669', textTransform: 'none' }}>
+              Back to Home
+            </Button>
           </Link>
-        </div>
-      </div>
+        </Container>
+      </Box>
 
-      {/* Hero Image Gallery */}
-      <div className="bg-white">
-        <div className="container mx-auto px-4 py-6">
-          <div className="grid grid-cols-4 gap-4 h-[400px]">
-            <div className="col-span-2 row-span-2">
-              <img
-                src={hotel.main_photo || hotel.hotelImages?.[0]?.url || hotel.hotelImages?.[0]?.urlHd || 'https://via.placeholder.com/800x600'}
-                alt={hotel.name}
-                className="w-full h-full object-cover rounded-lg"
-              />
-            </div>
-            {hotel.hotelImages?.slice(1, 5).map((img: any, idx: number) => (
-              <div key={idx} className={idx < 2 ? 'col-span-2' : 'col-span-1'}>
-                <img
-                  src={img.url || img.urlHd || img}
-                  alt={`${hotel.name} ${idx + 2}`}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              </div>
+      {/* Image Gallery */}
+      <Box sx={{ bgcolor: 'white', py: 3 }}>
+        <Container maxWidth="xl">
+          <ImageList
+            sx={{ width: '100%', height: 450, borderRadius: 3, overflow: 'hidden' }}
+            variant="quilted"
+            cols={4}
+            rowHeight={225}
+          >
+            {images.slice(0, 5).map((img, index) => (
+              <ImageListItem
+                key={index}
+                cols={index === 0 ? 2 : 1}
+                rows={index === 0 ? 2 : 1}
+                sx={{
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  '&:hover img': { transform: 'scale(1.05)' },
+                }}
+              >
+                <Box
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    position: 'relative',
+                    bgcolor: '#f5f5f5',
+                  }}
+                >
+                  <ImageWithFallback
+                    src={img}
+                    alt={`${hotel.name} ${index + 1}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.3s ease',
+                    }}
+                  />
+                </Box>
+                {index === 4 && images.length > 5 && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      inset: 0,
+                      bgcolor: 'rgba(0,0,0,0.6)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'white',
+                    }}
+                  >
+                    <PhotoLibrary sx={{ mr: 1 }} />
+                    <Typography variant="h6">+{images.length - 5} Photos</Typography>
+                  </Box>
+                )}
+              </ImageListItem>
             ))}
-          </div>
-        </div>
-      </div>
+          </ImageList>
+        </Container>
+      </Box>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Details */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Header */}
-            <Card>
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
+      <Container maxWidth="xl" sx={{ py: 4 }}>
+        <Grid container spacing={3} sx={{ alignItems: 'flex-start' }}>
+          {/* Left Column */}
+          <Grid item xs={12} lg={8}>
+            {/* Header Card */}
+            <Card sx={{ mb: 3, borderRadius: 3, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+              <CardContent sx={{ p: 4 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 2 }}>
+                  <Box sx={{ flex: 1 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
                       {hotel.starRating && (
-                        <div className="flex">
-                          {[...Array(hotel.starRating)].map((_, i) => (
-                            <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                          ))}
-                        </div>
+                        <Rating value={hotel.starRating} readOnly size="small" />
                       )}
-                      <Badge variant="secondary">Hotel</Badge>
-                    </div>
-                    <h1 className="text-3xl font-bold mb-2">{hotel.name}</h1>
-                    <div className="flex items-center gap-2 text-neutral-600">
-                      <MapPin className="w-4 h-4" />
-                      <span>{hotel.address || `${hotel.city}, ${hotel.countryCode}`}</span>
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="icon">
-                      <Heart className="w-4 h-4" />
-                    </Button>
-                    <Button variant="outline" size="icon">
-                      <Share2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
+                      <Chip
+                        icon={<HotelIcon sx={{ fontSize: 16 }} />}
+                        label="Hotel"
+                        size="small"
+                        sx={{ bgcolor: '#e0e7ff', color: '#4338ca', fontWeight: 600 }}
+                      />
+                    </Box>
+                    <Typography variant="h3" sx={{ fontWeight: 700, mb: 2, color: '#111827' }}>
+                      {hotel.name}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#6b7280' }}>
+                      <LocationOn sx={{ fontSize: 20, color: '#10b981' }} />
+                      <Typography variant="body1">{hotel.address || `${hotel.city}, ${hotel.countryCode}`}</Typography>
+                    </Box>
+                  </Box>
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <IconButton
+                      onClick={() => setIsWishlisted(!isWishlisted)}
+                      sx={{
+                        bgcolor: '#f3f4f6',
+                        '&:hover': { bgcolor: '#e5e7eb' },
+                      }}
+                    >
+                      {isWishlisted ? (
+                        <Favorite sx={{ color: '#ef4444' }} />
+                      ) : (
+                        <FavoriteBorder />
+                      )}
+                    </IconButton>
+                    <IconButton sx={{ bgcolor: '#f3f4f6', '&:hover': { bgcolor: '#e5e7eb' } }}>
+                      <Share />
+                    </IconButton>
+                  </Box>
+                </Box>
+
+                {hotel.rating && (
+                  <Box
+                    sx={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 2,
+                      bgcolor: '#d1fae5',
+                      px: 3,
+                      py: 1.5,
+                      borderRadius: 2,
+                    }}
+                  >
+                    <Box>
+                      <Typography variant="h4" sx={{ fontWeight: 700, color: '#065f46' }}>
+                        {hotel.rating}/10
+                      </Typography>
+                      <Typography variant="caption" sx={{ color: '#059669' }}>
+                        Excellent
+                      </Typography>
+                    </Box>
+                    <Divider orientation="vertical" flexItem />
+                    <Typography variant="body2" sx={{ color: '#065f46', fontWeight: 500 }}>
+                      {hotel.reviewCount || 0} reviews
+                    </Typography>
+                  </Box>
+                )}
+              </CardContent>
             </Card>
 
             {/* Tabs */}
-            <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="rooms">Rooms</TabsTrigger>
-                <TabsTrigger value="amenities">Amenities</TabsTrigger>
-                <TabsTrigger value="reviews">Reviews</TabsTrigger>
-              </TabsList>
+            <Card sx={{ borderRadius: 3, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', minHeight: 600 }}>
+              <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'sticky', top: 0, bgcolor: 'white', zIndex: 10 }}>
+                <Tabs
+                  value={tabValue}
+                  onChange={(_, newValue) => setTabValue(newValue)}
+                  variant="scrollable"
+                  scrollButtons="auto"
+                  allowScrollButtonsMobile
+                  sx={{
+                    '& .MuiTab-root': {
+                      textTransform: 'none',
+                      fontWeight: 600,
+                      fontSize: '1rem',
+                      minWidth: { xs: 100, sm: 120 },
+                      px: { xs: 2, sm: 3 },
+                    },
+                    '& .Mui-selected': {
+                      color: '#059669',
+                    },
+                    '& .MuiTabs-indicator': {
+                      backgroundColor: '#059669',
+                      height: 3,
+                    },
+                  }}
+                >
+                  <Tab label="Overview" />
+                  <Tab label="Rooms & Rates" />
+                  <Tab label="Facilities" />
+                  <Tab label="Location" />
+                  <Tab label="Reviews" />
+                </Tabs>
+              </Box>
 
-              <TabsContent value="overview" className="space-y-4">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>About This Hotel</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-neutral-700 leading-relaxed">
-                      {hotel.description || hotel.hotelImportantInformation || 'No description available.'}
-                    </p>
-                  </CardContent>
-                </Card>
+              {/* Overview Tab */}
+              <TabPanel value={tabValue} index={0}>
+                <CardContent>
+                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 3, color: '#111827' }}>
+                    About This Hotel
+                  </Typography>
+                  <Box
+                    sx={{
+                      color: '#4b5563',
+                      lineHeight: 1.8,
+                      mb: 4,
+                      '& p': { mb: 2 },
+                      '& strong': { fontWeight: 600, color: '#111827' },
+                      '& ul, & ol': { pl: 3, mb: 2 },
+                      '& li': { mb: 1 },
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: hotel.hotelDescription || hotel.description || hotel.hotelImportantInformation || '<p>Experience comfort and luxury at this wonderful property.</p>',
+                    }}
+                  />
 
-                {(hotel.address || hotel.location) && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Location</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-neutral-700 mb-4">
-                        {hotel.address || `${hotel.city}, ${hotel.country || hotel.countryCode}`}
-                      </p>
-                      {(hotel.location?.latitude || hotel.latitude) && (
-                        <div className="bg-neutral-100 rounded-lg h-64 flex items-center justify-center">
-                          <div className="text-center">
-                            <MapPin className="w-8 h-8 text-neutral-400 mx-auto mb-2" />
-                            <p className="text-sm text-neutral-500">
-                              {hotel.location?.latitude || hotel.latitude}, {hotel.location?.longitude || hotel.longitude}
-                            </p>
-                          </div>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                )}
-              </TabsContent>
+                  {/* Hotel Highlights */}
+                  {(hotel.starRating || hotel.stars || hotel.hotelTypeId) && (
+                    <>
+                      <Divider sx={{ my: 4 }} />
+                      <Typography variant="h5" sx={{ fontWeight: 700, mb: 3, color: '#111827' }}>
+                        Hotel Highlights
+                      </Typography>
+                      <Grid container spacing={2}>
+                        {(hotel.starRating || hotel.stars) && (
+                          <Grid item xs={12} sm={6} md={4}>
+                            <Paper sx={{ p: 3, textAlign: 'center', bgcolor: '#f9fafb' }}>
+                              <Typography variant="h4" sx={{ fontWeight: 700, color: '#059669', mb: 1 }}>
+                                {hotel.starRating || hotel.stars}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                Star Rating
+                              </Typography>
+                            </Paper>
+                          </Grid>
+                        )}
+                        {hotel.reviewCount && (
+                          <Grid item xs={12} sm={6} md={4}>
+                            <Paper sx={{ p: 3, textAlign: 'center', bgcolor: '#f9fafb' }}>
+                              <Typography variant="h4" sx={{ fontWeight: 700, color: '#059669', mb: 1 }}>
+                                {hotel.reviewCount.toLocaleString()}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                Reviews
+                              </Typography>
+                            </Paper>
+                          </Grid>
+                        )}
+                        {hotel.facilities && hotel.facilities.length > 0 && (
+                          <Grid item xs={12} sm={6} md={4}>
+                            <Paper sx={{ p: 3, textAlign: 'center', bgcolor: '#f9fafb' }}>
+                              <Typography variant="h4" sx={{ fontWeight: 700, color: '#059669', mb: 1 }}>
+                                {hotel.facilities.length}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                Facilities
+                              </Typography>
+                            </Paper>
+                          </Grid>
+                        )}
+                      </Grid>
+                    </>
+                  )}
 
-              <TabsContent value="rooms" className="space-y-4">
-                {hotel.rooms?.length > 0 ? (
-                  hotel.rooms.map((room: any, idx: number) => (
-                    <Card key={idx}>
-                      <CardContent className="pt-6">
-                        <div className="flex flex-col md:flex-row gap-4">
-                          {room.photos?.[0] && (
-                            <img
-                              src={room.photos[0].url_max}
-                              alt={room.roomName}
-                              className="w-full md:w-48 h-32 object-cover rounded-lg"
-                            />
+                  {/* Important Information */}
+                  {hotel.hotelImportantInformation && hotel.hotelImportantInformation !== hotel.hotelDescription && (
+                    <>
+                      <Divider sx={{ my: 4 }} />
+                      <Alert severity="info" sx={{ borderRadius: 2 }}>
+                        <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                          Important Information
+                        </Typography>
+                        <Box
+                          sx={{
+                            '& p': { mb: 1 },
+                            '& ul, & ol': { pl: 2 },
+                          }}
+                          dangerouslySetInnerHTML={{
+                            __html: hotel.hotelImportantInformation,
+                          }}
+                        />
+                      </Alert>
+                    </>
+                  )}
+
+                  {/* Check-in/Check-out Times */}
+                  {hotel.checkinCheckoutTimes && (
+                    <>
+                      <Divider sx={{ my: 4 }} />
+                      <Typography variant="h5" sx={{ fontWeight: 700, mb: 3, color: '#111827' }}>
+                        Check-in & Check-out
+                      </Typography>
+                      <Grid container spacing={3}>
+                        <Grid item xs={12} sm={6}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, p: 2, bgcolor: '#f9fafb', borderRadius: 2 }}>
+                            <CalendarMonth sx={{ fontSize: 32, color: '#059669' }} />
+                            <Box>
+                              <Typography variant="body2" color="text.secondary">
+                                Check-in from
+                              </Typography>
+                              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                                {hotel.checkinCheckoutTimes.checkin || 'TBD'}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, p: 2, bgcolor: '#f9fafb', borderRadius: 2 }}>
+                            <CalendarMonth sx={{ fontSize: 32, color: '#059669' }} />
+                            <Box>
+                              <Typography variant="body2" color="text.secondary">
+                                Check-out until
+                              </Typography>
+                              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                                {hotel.checkinCheckoutTimes.checkout || 'TBD'}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </>
+                  )}
+                </CardContent>
+              </TabPanel>
+
+              {/* Rooms & Rates Tab */}
+              <TabPanel value={tabValue} index={1}>
+                <CardContent>
+                  {hotel.rooms?.length > 0 ? (
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                      {hotel.rooms.map((room: any, idx: number) => (
+                        <Paper
+                          key={idx}
+                          sx={{
+                            p: 3,
+                            borderRadius: 2,
+                            border: '1px solid #e5e7eb',
+                            '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.08)' },
+                            transition: 'all 0.3s',
+                          }}
+                        >
+                          <Grid container spacing={3}>
+                            {room.photos?.[0] && (
+                              <Grid item xs={12} md={4}>
+                                <Box
+                                  sx={{
+                                    position: 'relative',
+                                    paddingTop: '75%',
+                                    borderRadius: 2,
+                                    overflow: 'hidden',
+                                    bgcolor: '#f5f5f5',
+                                  }}
+                                >
+                                  <img
+                                    src={room.photos[0].url_max}
+                                    alt={room.roomName}
+                                    style={{
+                                      position: 'absolute',
+                                      top: 0,
+                                      left: 0,
+                                      width: '100%',
+                                      height: '100%',
+                                      objectFit: 'cover',
+                                    }}
+                                  />
+                                </Box>
+                              </Grid>
+                            )}
+                            <Grid item xs={12} md={room.photos?.[0] ? 8 : 12}>
+                              <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
+                                {room.roomName}
+                              </Typography>
+                              <Box sx={{ display: 'flex', gap: 3, mb: 2 }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                  <People sx={{ color: '#059669', fontSize: 20 }} />
+                                  <Typography variant="body2" color="text.secondary">
+                                    Max {room.maxAdults} Adults
+                                  </Typography>
+                                </Box>
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                  <KingBed sx={{ color: '#059669', fontSize: 20 }} />
+                                  <Typography variant="body2" color="text.secondary">
+                                    {room.roomSizeSquare}m²
+                                  </Typography>
+                                </Box>
+                              </Box>
+                              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                                {room.amenities?.slice(0, 6).map((amenity: any, i: number) => (
+                                  <Chip
+                                    key={i}
+                                    label={amenity.name}
+                                    size="small"
+                                    sx={{ bgcolor: '#f3f4f6', fontWeight: 500 }}
+                                  />
+                                ))}
+                              </Box>
+                            </Grid>
+                          </Grid>
+                        </Paper>
+                      ))}
+                    </Box>
+                  ) : (
+                    <Box sx={{ textAlign: 'center', py: 6 }}>
+                      <HotelIcon sx={{ fontSize: 64, color: '#d1d5db', mb: 2 }} />
+                      <Typography variant="body1" color="text.secondary">
+                        Room information not available
+                      </Typography>
+                    </Box>
+                  )}
+                </CardContent>
+              </TabPanel>
+
+              {/* Facilities Tab */}
+              <TabPanel value={tabValue} index={2}>
+                <CardContent>
+                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 3, color: '#111827' }}>
+                    Hotel Facilities & Amenities
+                  </Typography>
+                  {hotel.facilities?.length > 0 || hotel.amenities?.length > 0 ? (
+                    <Grid container spacing={2}>
+                      {(hotel.facilities || hotel.amenities || []).map((facility: any, idx: number) => {
+                        const facilityName = typeof facility === 'string' ? facility : facility.name || facility.id;
+                        const Icon = facilityIcons[facilityName?.toLowerCase()] || CheckCircle;
+                        return (
+                          <Grid item xs={12} sm={6} md={4} key={idx}>
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 2,
+                                p: 2,
+                                bgcolor: '#f9fafb',
+                                borderRadius: 2,
+                              }}
+                            >
+                              <Icon sx={{ color: '#059669', fontSize: 24 }} />
+                              <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                                {facilityName}
+                              </Typography>
+                            </Box>
+                          </Grid>
+                        );
+                      })}
+                    </Grid>
+                  ) : (
+                    <Box sx={{ textAlign: 'center', py: 6 }}>
+                      <SpaIcon sx={{ fontSize: 64, color: '#d1d5db', mb: 2 }} />
+                      <Typography variant="body1" color="text.secondary">
+                        No amenities listed
+                      </Typography>
+                    </Box>
+                  )}
+                </CardContent>
+              </TabPanel>
+
+              {/* Location Tab */}
+              <TabPanel value={tabValue} index={3}>
+                <CardContent>
+                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 3, color: '#111827' }}>
+                    Location & Map
+                  </Typography>
+
+                  {/* Address Information */}
+                  {(hotel.address || hotel.city) && (
+                    <Paper sx={{ p: 3, mb: 3, borderRadius: 2, border: '1px solid #e5e7eb' }}>
+                      <Box sx={{ display: 'flex', alignItems: 'start', gap: 2 }}>
+                        <LocationOn sx={{ color: '#10b981', fontSize: 32, mt: 0.5 }} />
+                        <Box sx={{ flex: 1 }}>
+                          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                            Address
+                          </Typography>
+                          <Typography variant="body1" sx={{ color: '#111827', fontWeight: 500, mb: 0.5 }}>
+                            {hotel.address || hotel.name}
+                          </Typography>
+                          <Typography variant="body1" sx={{ color: '#6b7280' }}>
+                            {hotel.city}{hotel.city && (hotel.country || hotel.countryCode) && ', '}{hotel.country || hotel.countryCode}
+                          </Typography>
+                          {hotel.zip && (
+                            <Typography variant="body2" sx={{ color: '#9ca3af', mt: 0.5 }}>
+                              Postal Code: {hotel.zip}
+                            </Typography>
                           )}
-                          <div className="flex-1">
-                            <h3 className="text-xl font-semibold mb-2">{room.roomName}</h3>
-                            <div className="grid grid-cols-2 gap-4 text-sm text-neutral-600 mb-4">
-                              <div className="flex items-center gap-2">
-                                <Users className="w-4 h-4" />
-                                Max {room.maxAdults} Adults
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Bed className="w-4 h-4" />
-                                {room.roomSizeSquare}m²
-                              </div>
-                            </div>
-                            <div className="flex flex-wrap gap-2">
-                              {room.amenities?.slice(0, 5).map((amenity: any, i: number) => (
-                                <Badge key={i} variant="outline">
-                                  {amenity.name}
-                                </Badge>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))
-                ) : (
-                  <Card>
-                    <CardContent className="pt-6 text-center text-neutral-600">
-                      Room information not available
-                    </CardContent>
-                  </Card>
-                )}
-              </TabsContent>
+                        </Box>
+                      </Box>
+                    </Paper>
+                  )}
 
-              <TabsContent value="amenities" className="space-y-4">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Hotel Facilities</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {hotel.facilities?.length > 0 ? (
-                        hotel.facilities.map((facility: any, idx: number) => {
-                          const facilityName = typeof facility === 'string' ? facility : facility.name || facility.id;
-                          const Icon = facilityIcons[facilityName?.toLowerCase()] || Check;
+                  {/* Coordinates */}
+                  {(hotel.location?.latitude || hotel.latitude) && (
+                    <Paper sx={{ p: 3, mb: 3, borderRadius: 2, bgcolor: '#f9fafb', border: '1px solid #e5e7eb' }}>
+                      <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+                        Geographic Coordinates
+                      </Typography>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                            <Box sx={{ p: 1.5, bgcolor: 'white', borderRadius: 2 }}>
+                              <LocationOn sx={{ color: '#059669', fontSize: 24 }} />
+                            </Box>
+                            <Box>
+                              <Typography variant="caption" color="text.secondary">
+                                Latitude
+                              </Typography>
+                              <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                                {hotel.location?.latitude || hotel.latitude}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                            <Box sx={{ p: 1.5, bgcolor: 'white', borderRadius: 2 }}>
+                              <LocationOn sx={{ color: '#059669', fontSize: 24 }} />
+                            </Box>
+                            <Box>
+                              <Typography variant="caption" color="text.secondary">
+                                Longitude
+                              </Typography>
+                              <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                                {hotel.location?.longitude || hotel.longitude}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Grid>
+                      </Grid>
+
+                      {/* Map Placeholder */}
+                      <Box sx={{ mt: 3 }}>
+                        <Paper
+                          sx={{
+                            height: 300,
+                            bgcolor: '#e5e7eb',
+                            borderRadius: 2,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexDirection: 'column',
+                            gap: 2,
+                          }}
+                        >
+                          <LocationOn sx={{ fontSize: 64, color: '#9ca3af' }} />
+                          <Typography variant="body1" color="text.secondary">
+                            Map integration coming soon
+                          </Typography>
+                          <Button
+                            variant="contained"
+                            size="small"
+                            sx={{
+                              bgcolor: '#059669',
+                              '&:hover': { bgcolor: '#047857' },
+                            }}
+                            onClick={() => {
+                              const lat = hotel.location?.latitude || hotel.latitude;
+                              const lng = hotel.location?.longitude || hotel.longitude;
+                              window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
+                            }}
+                          >
+                            View on Google Maps
+                          </Button>
+                        </Paper>
+                      </Box>
+                    </Paper>
+                  )}
+
+                  {/* Getting There Info */}
+                  {!hotel.location?.latitude && !hotel.latitude && (
+                    <Box sx={{ textAlign: 'center', py: 6 }}>
+                      <LocationOn sx={{ fontSize: 64, color: '#d1d5db', mb: 2 }} />
+                      <Typography variant="body1" color="text.secondary">
+                        Detailed location information not available
+                      </Typography>
+                    </Box>
+                  )}
+                </CardContent>
+              </TabPanel>
+
+              {/* Reviews Tab */}
+              <TabPanel value={tabValue} index={4}>
+                <CardContent>
+                  {/* Review Statistics */}
+                  {hotel && hotel.rating && hotel.reviewCount && (
+                    <Paper
+                      sx={{
+                        p: 4,
+                        mb: 4,
+                        borderRadius: 3,
+                        bgcolor: '#f9fafb',
+                        border: '1px solid #e5e7eb',
+                      }}
+                    >
+                      <Grid container spacing={4} alignItems="center">
+                        <Grid item xs={12} md={4}>
+                          <Box sx={{ textAlign: 'center' }}>
+                            <Typography variant="h2" sx={{ fontWeight: 700, color: '#059669', mb: 1 }}>
+                              {hotel.rating}/10
+                            </Typography>
+                            <Rating
+                              value={hotel.rating / 2}
+                              precision={0.1}
+                              readOnly
+                              size="large"
+                              sx={{ mb: 1 }}
+                            />
+                            <Typography variant="body1" color="text.secondary">
+                              Based on {hotel.reviewCount.toLocaleString()} reviews
+                            </Typography>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} md={8}>
+                          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            {[5, 4, 3, 2, 1].map((stars) => {
+                              const percentage = Math.random() * 60 + 20; // Mock data - replace with real distribution
+                              return (
+                                <Box key={stars} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                  <Typography variant="body2" sx={{ minWidth: 60, fontWeight: 600 }}>
+                                    {stars} stars
+                                  </Typography>
+                                  <Box
+                                    sx={{
+                                      flex: 1,
+                                      height: 8,
+                                      bgcolor: '#e5e7eb',
+                                      borderRadius: 1,
+                                      overflow: 'hidden',
+                                    }}
+                                  >
+                                    <Box
+                                      sx={{
+                                        width: `${percentage}%`,
+                                        height: '100%',
+                                        bgcolor: '#059669',
+                                        transition: 'width 0.5s ease',
+                                      }}
+                                    />
+                                  </Box>
+                                  <Typography variant="caption" sx={{ minWidth: 40, color: '#6b7280' }}>
+                                    {Math.round(percentage)}%
+                                  </Typography>
+                                </Box>
+                              );
+                            })}
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </Paper>
+                  )}
+
+                  {/* Reviews List */}
+                  {reviewsLoading ? (
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                      {[1, 2, 3].map((i) => (
+                        <Paper
+                          key={i}
+                          sx={{
+                            p: 3,
+                            borderRadius: 2,
+                            border: '1px solid #e5e7eb',
+                          }}
+                        >
+                          <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                            <Box
+                              sx={{
+                                width: 48,
+                                height: 48,
+                                borderRadius: '50%',
+                                bgcolor: '#f3f4f6',
+                                animation: 'pulse 1.5s ease-in-out infinite',
+                                '@keyframes pulse': {
+                                  '0%, 100%': { opacity: 1 },
+                                  '50%': { opacity: 0.5 },
+                                },
+                              }}
+                            />
+                            <Box sx={{ flex: 1 }}>
+                              <Box
+                                sx={{
+                                  height: 20,
+                                  width: '30%',
+                                  bgcolor: '#f3f4f6',
+                                  borderRadius: 1,
+                                  mb: 1,
+                                  animation: 'pulse 1.5s ease-in-out infinite',
+                                }}
+                              />
+                              <Box
+                                sx={{
+                                  height: 80,
+                                  width: '100%',
+                                  bgcolor: '#f3f4f6',
+                                  borderRadius: 1,
+                                  animation: 'pulse 1.5s ease-in-out infinite',
+                                }}
+                              />
+                            </Box>
+                          </Box>
+                        </Paper>
+                      ))}
+                    </Box>
+                  ) : reviews && reviews.length > 0 ? (
+                    <>
+                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                        {reviews.map((review: any, index: number) => {
+                          const displayScore = review.averageScore || review.rating || 0;
+                          const displayName = review.name || review.guestName || 'Anonymous';
+                          const displayDate = review.date || review.reviewDate;
+                          const displayTitle = review.headline || review.title;
+                          const reviewerType = review.type ? review.type.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()) : null;
+
                           return (
-                            <div key={idx} className="flex items-center gap-3">
-                              <Icon className="w-5 h-5 text-emerald-600" />
-                              <span className="text-neutral-700">{facilityName}</span>
-                            </div>
+                            <Paper
+                              key={review.id || index}
+                              sx={{
+                                p: 3,
+                                borderRadius: 2,
+                                border: '1px solid #e5e7eb',
+                                transition: 'all 0.3s',
+                                '&:hover': {
+                                  boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                                },
+                              }}
+                            >
+                              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 2 }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                  <Avatar
+                                    sx={{
+                                      bgcolor: '#059669',
+                                      width: 48,
+                                      height: 48,
+                                      fontWeight: 700,
+                                    }}
+                                  >
+                                    {displayName[0].toUpperCase()}
+                                  </Avatar>
+                                  <Box>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                                      <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                                        {displayName}
+                                      </Typography>
+                                      {review.country && (
+                                        <Chip
+                                          label={review.country.toUpperCase()}
+                                          size="small"
+                                          sx={{
+                                            height: 20,
+                                            fontSize: '0.7rem',
+                                            bgcolor: '#f3f4f6',
+                                            color: '#6b7280',
+                                            fontWeight: 600,
+                                          }}
+                                        />
+                                      )}
+                                    </Box>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                                      <Typography variant="caption" color="text.secondary">
+                                        {displayDate
+                                          ? new Date(displayDate).toLocaleDateString('en-US', {
+                                              year: 'numeric',
+                                              month: 'long',
+                                              day: 'numeric',
+                                            })
+                                          : 'Date not available'}
+                                      </Typography>
+                                      {reviewerType && (
+                                        <>
+                                          <Typography variant="caption" color="text.secondary">•</Typography>
+                                          <Typography variant="caption" sx={{ color: '#059669', fontWeight: 500 }}>
+                                            {reviewerType}
+                                          </Typography>
+                                        </>
+                                      )}
+                                    </Box>
+                                  </Box>
+                                </Box>
+                                <Chip
+                                  icon={<StarIcon sx={{ fontSize: 16 }} />}
+                                  label={`${displayScore}/10`}
+                                  sx={{
+                                    bgcolor: displayScore >= 8 ? '#d1fae5' : displayScore >= 6 ? '#fef3c7' : '#fee2e2',
+                                    color: displayScore >= 8 ? '#065f46' : displayScore >= 6 ? '#92400e' : '#991b1b',
+                                    fontWeight: 700,
+                                    fontSize: '0.875rem',
+                                  }}
+                                />
+                              </Box>
+
+                              {displayTitle && (
+                                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1.5, color: '#111827' }}>
+                                  {displayTitle}
+                                </Typography>
+                              )}
+
+                              {review.description && (
+                                <Typography variant="body1" sx={{ color: '#4b5563', mb: 2, lineHeight: 1.7 }}>
+                                  {review.description}
+                                </Typography>
+                              )}
+
+                              {(review.pros || review.cons) && (
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mt: 2 }}>
+                                  {review.pros && review.pros.trim() !== '' && (
+                                    <Box
+                                      sx={{
+                                        p: 2,
+                                        bgcolor: '#d1fae5',
+                                        borderRadius: 2,
+                                        borderLeft: '4px solid #059669',
+                                      }}
+                                    >
+                                      <Typography variant="body2" sx={{ color: '#065f46', fontWeight: 600, mb: 0.5 }}>
+                                        👍 What guests loved:
+                                      </Typography>
+                                      <Typography variant="body2" sx={{ color: '#047857' }}>
+                                        {review.pros}
+                                      </Typography>
+                                    </Box>
+                                  )}
+                                  {review.cons && review.cons.trim() !== '' && (
+                                    <Box
+                                      sx={{
+                                        p: 2,
+                                        bgcolor: '#fee2e2',
+                                        borderRadius: 2,
+                                        borderLeft: '4px solid #dc2626',
+                                      }}
+                                    >
+                                      <Typography variant="body2" sx={{ color: '#991b1b', fontWeight: 600, mb: 0.5 }}>
+                                        👎 Room for improvement:
+                                      </Typography>
+                                      <Typography variant="body2" sx={{ color: '#b91c1c' }}>
+                                        {review.cons}
+                                      </Typography>
+                                    </Box>
+                                  )}
+                                </Box>
+                              )}
+
+                              {/* Review Source */}
+                              {review.source && (
+                                <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid #f3f4f6' }}>
+                                  <Typography variant="caption" sx={{ color: '#9ca3af', fontStyle: 'italic' }}>
+                                    Review source: {review.source}
+                                  </Typography>
+                                </Box>
+                              )}
+                            </Paper>
                           );
-                        })
-                      ) : hotel.amenities?.length > 0 ? (
-                        hotel.amenities.map((amenity: any, idx: number) => {
-                          const amenityName = typeof amenity === 'string' ? amenity : amenity.name || amenity.id;
-                          return (
-                            <div key={idx} className="flex items-center gap-3">
-                              <Check className="w-5 h-5 text-emerald-600" />
-                              <span className="text-neutral-700">{amenityName}</span>
-                            </div>
-                          );
-                        })
-                      ) : (
-                        <p className="col-span-3 text-neutral-600">No amenities listed</p>
+                        })}
+                      </Box>
+
+                      {/* Load More Button */}
+                      {reviews.length >= reviewsLimit && (
+                        <Box sx={{ textAlign: 'center', mt: 4 }}>
+                          <Button
+                            variant="outlined"
+                            size="large"
+                            onClick={() => setReviewsLimit((prev) => prev + 5)}
+                            sx={{
+                              borderColor: '#059669',
+                              color: '#059669',
+                              fontWeight: 600,
+                              px: 4,
+                              py: 1.5,
+                              '&:hover': {
+                                borderColor: '#047857',
+                                bgcolor: '#d1fae5',
+                              },
+                            }}
+                          >
+                            Load More Reviews
+                          </Button>
+                        </Box>
                       )}
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              <TabsContent value="reviews" className="space-y-4">
-                {reviews?.length > 0 ? (
-                  reviews.map((review: any) => (
-                    <Card key={review.id}>
-                      <CardContent className="pt-6">
-                        <div className="flex items-start justify-between mb-2">
-                          <div>
-                            <h4 className="font-semibold">{review.guestName || 'Anonymous'}</h4>
-                            <p className="text-sm text-neutral-500">{review.reviewDate}</p>
-                          </div>
-                          <div className="flex items-center gap-1 bg-emerald-100 text-emerald-700 px-2 py-1 rounded">
-                            <Star className="w-4 h-4 fill-current" />
-                            <span className="font-semibold">{review.rating}/10</span>
-                          </div>
-                        </div>
-                        <p className="text-neutral-700">{review.description}</p>
-                        {review.pros && (
-                          <div className="mt-2 text-sm text-green-700">
-                            <strong>Pros:</strong> {review.pros}
-                          </div>
-                        )}
-                        {review.cons && (
-                          <div className="mt-1 text-sm text-red-700">
-                            <strong>Cons:</strong> {review.cons}
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  ))
-                ) : (
-                  <Card>
-                    <CardContent className="pt-6 text-center text-neutral-600">
-                      No reviews available yet
-                    </CardContent>
-                  </Card>
-                )}
-              </TabsContent>
-            </Tabs>
-          </div>
+                    </>
+                  ) : (
+                    <Box sx={{ textAlign: 'center', py: 8 }}>
+                      <Box
+                        sx={{
+                          width: 120,
+                          height: 120,
+                          borderRadius: '50%',
+                          bgcolor: '#f3f4f6',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          mx: 'auto',
+                          mb: 3,
+                        }}
+                      >
+                        <StarIcon sx={{ fontSize: 64, color: '#d1d5db' }} />
+                      </Box>
+                      <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, color: '#374151' }}>
+                        No reviews yet
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Be the first to share your experience at this hotel
+                      </Typography>
+                    </Box>
+                  )}
+                </CardContent>
+              </TabPanel>
+            </Card>
+          </Grid>
 
           {/* Right Column - Booking Card */}
-          <div className="lg:col-span-1">
-            <Card className="sticky top-4">
-              <CardHeader>
-                <CardTitle>Book This Hotel</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {hotel.rating && (
-                  <div className="flex items-center justify-between p-4 bg-emerald-50 rounded-lg">
-                    <div>
-                      <div className="text-2xl font-bold text-emerald-700">{hotel.rating}/10</div>
-                      <div className="text-sm text-neutral-600">{hotel.reviewCount || 0} reviews</div>
-                    </div>
-                    <Badge className="bg-emerald-600">Excellent</Badge>
-                  </div>
-                )}
+          <Grid item xs={12} lg={4}>
+            <Box sx={{ position: 'sticky', top: 16 }}>
+              <Card
+                sx={{
+                  borderRadius: 3,
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+                  border: '2px solid #d1fae5',
+                  transition: 'all 0.3s ease',
+                }}
+              >
+              <CardContent sx={{ p: 4 }}>
+                <Typography variant="h5" sx={{ fontWeight: 700, mb: 3, color: '#111827' }}>
+                  Book This Hotel
+                </Typography>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">Check-in</label>
-                  <div className="relative">
-                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
-                    <input
-                      type="date"
-                      className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    />
-                  </div>
-                </div>
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="body2" sx={{ mb: 1, fontWeight: 600, color: '#374151' }}>
+                    Check-in
+                  </Typography>
+                  <TextField
+                    type="date"
+                    fullWidth
+                    value={checkIn}
+                    onChange={(e) => setCheckIn(e.target.value)}
+                    InputProps={{
+                      startAdornment: <CalendarMonth sx={{ mr: 1, color: '#9ca3af' }} />,
+                    }}
+                    sx={{ bgcolor: '#f9fafb' }}
+                  />
+                </Box>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">Check-out</label>
-                  <div className="relative">
-                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
-                    <input
-                      type="date"
-                      className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    />
-                  </div>
-                </div>
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="body2" sx={{ mb: 1, fontWeight: 600, color: '#374151' }}>
+                    Check-out
+                  </Typography>
+                  <TextField
+                    type="date"
+                    fullWidth
+                    value={checkOut}
+                    onChange={(e) => setCheckOut(e.target.value)}
+                    InputProps={{
+                      startAdornment: <CalendarMonth sx={{ mr: 1, color: '#9ca3af' }} />,
+                    }}
+                    sx={{ bgcolor: '#f9fafb' }}
+                  />
+                </Box>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">Guests</label>
-                  <div className="relative">
-                    <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
-                    <select className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 appearance-none">
-                      <option>1 Adult</option>
-                      <option>2 Adults</option>
-                      <option>3 Adults</option>
-                      <option>4 Adults</option>
-                    </select>
-                  </div>
-                </div>
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="body2" sx={{ mb: 1, fontWeight: 600, color: '#374151' }}>
+                    Guests
+                  </Typography>
+                  <TextField
+                    select
+                    fullWidth
+                    value={guests}
+                    onChange={(e) => setGuests(e.target.value)}
+                    InputProps={{
+                      startAdornment: <People sx={{ mr: 1, color: '#9ca3af' }} />,
+                    }}
+                    sx={{ bgcolor: '#f9fafb' }}
+                  >
+                    <MenuItem value="1">1 Adult</MenuItem>
+                    <MenuItem value="2">2 Adults</MenuItem>
+                    <MenuItem value="3">3 Adults</MenuItem>
+                    <MenuItem value="4">4 Adults</MenuItem>
+                  </TextField>
+                </Box>
 
-                <Button className="w-full" size="lg">
-                  Check Availability
+                {/* Price Display */}
+                <Paper
+                  sx={{
+                    p: 3,
+                    mb: 3,
+                    bgcolor: '#f0fdf4',
+                    border: '2px solid #d1fae5',
+                    borderRadius: 2,
+                  }}
+                >
+                  {ratesLoading ? (
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <CircularProgress size={20} sx={{ color: '#059669' }} />
+                      <Typography variant="body2" color="text.secondary">
+                        Checking rates...
+                      </Typography>
+                    </Box>
+                  ) : minRate ? (
+                    <>
+                      <Typography variant="caption" sx={{ color: '#047857', fontWeight: 600, textTransform: 'uppercase' }}>
+                        Total Price
+                      </Typography>
+                      <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1, mt: 0.5 }}>
+                        <Typography variant="h4" sx={{ fontWeight: 700, color: '#059669' }}>
+                          ${minRate.retailRate.total[0]?.amount.toFixed(2)}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {minRate.retailRate.total[0]?.currency}
+                        </Typography>
+                      </Box>
+                      <Typography variant="caption" sx={{ color: '#6b7280', display: 'block', mt: 0.5 }}>
+                        For {Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24))} night(s)
+                      </Typography>
+                      {minRate.cancellationPolicies?.refundableTag === 'RFN' && (
+                        <Chip
+                          label="Free Cancellation"
+                          size="small"
+                          sx={{
+                            mt: 1.5,
+                            bgcolor: '#d1fae5',
+                            color: '#065f46',
+                            fontWeight: 600,
+                            fontSize: '0.7rem',
+                          }}
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <Typography variant="body2" color="text.secondary">
+                      {checkIn && checkOut ? 'No rates available for selected dates' : 'Select dates to see pricing'}
+                    </Typography>
+                  )}
+                </Paper>
+
+                <Button
+                  fullWidth
+                  variant="contained"
+                  size="large"
+                  disabled={ratesLoading || !minRate}
+                  sx={{
+                    bgcolor: '#059669',
+                    py: 1.5,
+                    fontSize: '1rem',
+                    fontWeight: 600,
+                    textTransform: 'none',
+                    boxShadow: '0 4px 12px rgba(5,150,105,0.3)',
+                    '&:hover': {
+                      bgcolor: '#047857',
+                      boxShadow: '0 6px 16px rgba(5,150,105,0.4)',
+                    },
+                    '&:disabled': {
+                      bgcolor: '#d1d5db',
+                      color: '#9ca3af',
+                    },
+                  }}
+                >
+                  {ratesLoading ? 'Checking...' : minRate ? 'Book Now' : 'Check Availability'}
                 </Button>
 
-                <div className="flex items-center gap-2 text-xs text-neutral-500">
-                  <Check className="w-4 h-4 text-emerald-600" />
-                  Free cancellation available
-                </div>
-                <div className="flex items-center gap-2 text-xs text-neutral-500">
-                  <Check className="w-4 h-4 text-emerald-600" />
-                  Best price guarantee
-                </div>
+                <Divider sx={{ my: 3 }} />
+
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <CheckCircle sx={{ color: '#059669', fontSize: 20 }} />
+                    <Typography variant="body2" color="text.secondary">
+                      Free cancellation available
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <CheckCircle sx={{ color: '#059669', fontSize: 20 }} />
+                    <Typography variant="body2" color="text.secondary">
+                      Best price guarantee
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <CheckCircle sx={{ color: '#059669', fontSize: 20 }} />
+                    <Typography variant="body2" color="text.secondary">
+                      No booking fees
+                    </Typography>
+                  </Box>
+                </Box>
               </CardContent>
             </Card>
-          </div>
-        </div>
-      </div>
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
 
       <Footer />
-    </div>
+    </Box>
   );
 }

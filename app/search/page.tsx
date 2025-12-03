@@ -1,29 +1,71 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Navigation } from '@/components/layout/Navigation';
 import { SearchBar } from '@/components/features/SearchBar';
 import { FilterPanel } from '@/components/features/FilterPanel';
 import { PackageCard } from '@/components/features/PackageCard';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
 import { Footer } from '@/components/layout/Footer';
-import { SlidersHorizontal, Map, Grid, List, Loader2 } from 'lucide-react';
+import { SlidersHorizontal, Map, Grid, List, Loader2, AlertCircle } from 'lucide-react';
 import { packages } from '@/data/mockData';
 import { Button } from '@/components/ui/button';
-import { useHotels } from '@/lib/api/hooks/useHotels';
+import { useHotelsSearch } from '@/lib/api/hooks';
 import { mapHotelToPackage } from '@/data/mockAdapters';
 
 type ViewMode = 'grid' | 'list';
 type SortOption = 'recommended' | 'price-low' | 'price-high' | 'rating';
 
 export default function Search() {
+  const searchParams = useSearchParams();
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<SortOption>('recommended');
 
-  // Use mock data for now (API integration can be added later)
-  const allHotels = packages;
-  const isLoading = false;
+  // Get search parameters from URL
+  const destination = searchParams.get('destination');
+  const countryCode = searchParams.get('countryCode') || 'AE'; // Default to UAE
+  const cityName = searchParams.get('cityName');
+
+  // Determine search mode: use countryCode if cityName not available
+  const searchMode = cityName || destination ? 'city' : 'country';
+
+  // Fetch hotels using new SDK-based hook
+  const {
+    data: hotelsData,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useHotelsSearch(
+    {
+      ...(searchMode === 'city' && { cityName: cityName || destination || undefined }),
+      ...(searchMode === 'country' && { countryCode }),
+      limit: 50,
+      offset: 0,
+    },
+    {
+      enabled: true, // Always fetch on mount
+    }
+  );
+
+  // Map API hotels to package format
+  const apiPackages = useMemo(() => {
+    if (!hotelsData || hotelsData.length === 0) return [];
+    return hotelsData.map(mapHotelToPackage);
+  }, [hotelsData]);
+
+  // Use API data if available, fallback to mock data
+  const allHotels = useMemo(() => {
+    if (isLoading) return [];
+    if (isError || !apiPackages || apiPackages.length === 0) {
+      console.log('[Search] Using fallback mock data');
+      return packages;
+    }
+    console.log('[Search] Using API data:', apiPackages.length, 'hotels');
+    return apiPackages;
+  }, [isLoading, isError, apiPackages]);
 
   // Sort hotels based on selected option
   const sortedHotels = useMemo(() => {
@@ -126,16 +168,29 @@ export default function Search() {
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-16">
                 <Loader2 className="w-12 h-12 animate-spin text-emerald-600 mb-4" />
-                <p className="text-neutral-600 text-lg">Loading hotels from LiteAPI...</p>
-                <p className="text-sm text-neutral-500 mt-2">Finding the best halal-friendly options for you</p>
+                <p className="text-neutral-900 text-lg font-medium">Searching hotels...</p>
+                <p className="text-sm text-neutral-500 mt-2">
+                  {searchMode === 'city' ? `in ${cityName || destination}` : `in ${countryCode}`}
+                </p>
+              </div>
+            ) : isError ? (
+              <div className="flex flex-col items-center justify-center py-16 text-center px-4">
+                <AlertCircle className="w-12 h-12 text-amber-500 mb-4" />
+                <p className="text-neutral-900 text-lg font-medium mb-2">Unable to load hotels</p>
+                <p className="text-sm text-neutral-500 mb-4 max-w-md">
+                  {(error as any)?.message || 'Something went wrong. Showing sample data instead.'}
+                </p>
+                <Button onClick={() => refetch()} variant="outline" size="sm">
+                  Try Again
+                </Button>
               </div>
             ) : sortedHotels.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
-                <p className="text-neutral-600 text-lg mb-2">No hotels found</p>
+                <p className="text-neutral-900 text-lg font-medium mb-2">No hotels found</p>
                 <p className="text-sm text-neutral-500">Try adjusting your filters or search criteria</p>
               </div>
             ) : viewMode === 'grid' ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {sortedHotels.map((pkg) => (
                   <PackageCard
                     key={pkg.id}
@@ -145,7 +200,7 @@ export default function Search() {
                 ))}
               </div>
             ) : (
-              <div className="space-y-6">
+              <div className="space-y-5">
                 {sortedHotels.map((pkg) => (
                   <PackageCard
                     key={pkg.id}

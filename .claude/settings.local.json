@@ -15,7 +15,13 @@
       "Bash(if exist tsconfig.node.json del tsconfig.node.json)",
       "Bash(npm run build:*)",
       "Bash(find:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(if exist \".next\\dev\\lock\" del \".next\\dev\\lock\")",
+      "Bash(taskkill:*)",
+      "Bash(del .nextdevlock)",
+      "Bash(netstat:*)"
     ],
     "deny": [],
     "ask": []
